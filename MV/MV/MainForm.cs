@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Compiladores.MV
+namespace LPD.VirtualMachine
 {
     public partial class MainForm : Form
     {

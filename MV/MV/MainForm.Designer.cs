@@ -1,4 +1,4 @@
-﻿namespace Compiladores.MV
+﻿namespace LPD.VirtualMachine
 {
     partial class MainForm
     {

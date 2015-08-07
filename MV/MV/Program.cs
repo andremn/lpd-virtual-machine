@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Compiladores.MV
+namespace LPD.VirtualMachine
 {
     static class Program
     {
