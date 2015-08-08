@@ -1,0 +1,25 @@
+﻿<Controls:MetroWindow x:Class="LPD.VirtualMachine.View.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:LPD.VirtualMachine.View"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      mc:Ignorable="d"
+                      GlowBrush="{DynamicResource AccentColorBrush}"
+                      Title="Máquina Virtual - LPD" Height="600" Width="800">
+
+    <StackPanel Orientation="Horizontal"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center">
+        <Button Background="Transparent" Style="{DynamicResource CustomButtonStyle}"
+                Click="OnLoadButtonClick">
+            <StackPanel>
+                <Image Width="200" Source="../Icons/Document.png"/>
+                <TextBlock Text="Carregar" TextAlignment="Center"
+                       FontSize="32"/>
+            </StackPanel>
+        </Button>
+    </StackPanel>
+
+</Controls:MetroWindow>
