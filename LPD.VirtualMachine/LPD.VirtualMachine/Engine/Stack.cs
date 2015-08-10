@@ -85,7 +85,8 @@ namespace LPD.VirtualMachine.Engine
         /// </summary>
         public void Down()
         {
-            if (_top == 0)
+            //-1 is the lowest stack position.
+            if (_top == -1)
             {
                 throw new InvalidOperationException("The top of the stack is already at the lowest position.");
             }

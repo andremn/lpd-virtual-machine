@@ -1,8 +1,11 @@
-﻿namespace LPD.VirtualMachine.Engine.Instructions
+﻿using static LPD.VirtualMachine.Engine.InstructionSet;
+
+namespace LPD.VirtualMachine.Engine.Instructions
 {
     /// <summary>
     /// Represents the PRN instruction.
     /// </summary>
+    [Instruction(PRN)]
     public class PRNInstruction : IncrementalInstruction
     {
         /// <summary>

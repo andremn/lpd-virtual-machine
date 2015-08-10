@@ -44,7 +44,13 @@ namespace LPD.VirtualMachine.View
         /// <param name="value">The value to output.</param>
         public void Print(int value)
         {
+            Dispatcher.Invoke(() => AppendLineToOutput(value.ToString()));
+        }
 
+        private void AppendLineToOutput(string line)
+        {
+            this.OutputTextBlock.Inlines.Add(line);
+            this.OutputTextBlock.Inlines.Add("\n");
         }
 
         /// <summary>
