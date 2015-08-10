@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\LPD.VirtualMachine.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -42,6 +43,7 @@
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -70,11 +72,35 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Engine\ExecutionContext.cs" />
+    <Compile Include="Engine\HAL\CPU.cs" />
+    <Compile Include="Engine\HAL\Memory.cs" />
+    <Compile Include="Engine\Instructions\RDInstruction.cs" />
+    <Compile Include="Engine\IOutputProvider.cs" />
+    <Compile Include="Engine\IInputProvider.cs" />
+    <Compile Include="Engine\InstructionSet.cs" />
+    <Compile Include="Engine\Instructions\LDCInstruction.cs" />
+    <Compile Include="Engine\Instructions\ADDInstruction.cs" />
+    <Compile Include="Engine\Instructions\IInstruction.cs" />
+    <Compile Include="Engine\Instructions\IncrementalInstruction.cs" />
+    <Compile Include="Engine\Instructions\InstructionAttribute.cs" />
+    <Compile Include="Engine\Instructions\JumpableInstruction.cs" />
+    <Compile Include="Engine\Instructions\NULLInstruction.cs" />
+    <Compile Include="Engine\Instructions\STARTInstruction.cs" />
+    <Compile Include="Engine\InvalidInstructionException.cs" />
+    <Compile Include="Engine\InvalidProgramCounterException.cs" />
+    <Compile Include="Engine\ProgramCounter.cs" />
+    <Compile Include="Engine\Stack.cs" />
+    <Compile Include="Helpers\BytesConverter.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="View\ExecutionWindow.xaml.cs">
       <DependentUpon>ExecutionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -114,12 +140,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\SettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Engine\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Icons\Document.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\OpenFile.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Settings.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Start.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

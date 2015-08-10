@@ -7,8 +7,11 @@
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         GlowBrush="{DynamicResource AccentColorBrush}"
-        Title="ExecutionWindow" Height="300" Width="300">
-    <Grid>
-        
-    </Grid>
+        Title="Executando - " Height="300" Width="300" WindowState="Maximized">
+    <ScrollViewer>
+        <StackPanel>
+            <TextBlock x:Name="OutputTextBlock"/>
+            <Button Content="Is blocked?"/>
+        </StackPanel>
+    </ScrollViewer>
 </Controls:MetroWindow>

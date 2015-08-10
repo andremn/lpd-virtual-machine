@@ -13,8 +13,16 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="TextStyle" TargetType="TextBlock">
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="32"/>
+                <Setter Property="FontFamily" Value="Segoe UI Semilight"/>
+                <Setter Property="Foreground" Value="#FF707070"/>
+            </Style>
+
             <Style x:Key="CustomButtonStyle" TargetType="{x:Type Button}">
-                <Setter Property="Background" Value="{DynamicResource FlatButtonBackgroundBrush}"/>
+                <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Foreground" Value="{DynamicResource FlatButtonForegroundBrush}"/>
                 <Setter Property="FontSize" Value="{DynamicResource FlatButtonFontSize}"/>
                 <Setter Property="Padding" Value="10,5"/>
@@ -52,9 +60,6 @@
                                 </Trigger>
                                 <Trigger Property="IsEnabled" Value="False">
                                     <Setter Property="Foreground" Value="{DynamicResource GrayBrush2}"/>
-                                </Trigger>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="DarkGray"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>

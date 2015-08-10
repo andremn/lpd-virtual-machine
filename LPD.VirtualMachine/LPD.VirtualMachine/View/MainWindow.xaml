@@ -7,19 +7,67 @@
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       mc:Ignorable="d"
                       GlowBrush="{DynamicResource AccentColorBrush}"
-                      Title="Máquina Virtual - LPD" Height="600" Width="800">
+                      Title="Máquina Virtual - LPD" Width="700"
+                      MinWidth="700" MinHeight="600">
 
-    <StackPanel Orientation="Horizontal"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center">
-        <Button Background="Transparent" Style="{DynamicResource CustomButtonStyle}"
-                Click="OnLoadButtonClick">
-            <StackPanel>
-                <Image Width="200" Source="../Icons/Document.png"/>
-                <TextBlock Text="Carregar" TextAlignment="Center"
-                       FontSize="32"/>
-            </StackPanel>
-        </Button>
-    </StackPanel>
+    <Window.Resources>
+        <Storyboard x:Key="StartButtonStoryboard">
+            <ThicknessAnimation Storyboard.TargetName="StartButton" Storyboard.TargetProperty="Margin"
+                             From="0" To="50,0,0,0" Duration="0:0:0.300"/>
+            <DoubleAnimation Storyboard.TargetName="StartButton" Storyboard.TargetProperty="Width" From="0" To="250"
+                             Duration="0:0:0.300"/>
+            <DoubleAnimation Storyboard.TargetName="StartButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                             BeginTime="0:0:0.200"
+                             From="0" To="1" Duration="0:0:0.600">
+                <DoubleAnimation.EasingFunction>
+                    <ElasticEase Oscillations="2" Springiness="3" EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="StartButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                             BeginTime="0:0:0.200"
+                              From="0" To="1" Duration="0:0:0.600">
+                <DoubleAnimation.EasingFunction>
+                    <ElasticEase Oscillations="2" Springiness="3" EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Window.Resources>
+
+    <DockPanel>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="0,100,0,0"
+                    DockPanel.Dock="Top">
+            <Button Style="{DynamicResource CustomButtonStyle}"
+                    Click="OnLoadButtonClick">
+                <StackPanel>
+                    <Image Width="128" Height="128" Source="../Icons/OpenFile.png"/>
+                    <TextBlock Text="Carregar Arquivo" Style="{StaticResource TextStyle}"/>
+                </StackPanel>
+            </Button>
+            <Button x:Name="StartButton" Style="{DynamicResource CustomButtonStyle}"
+                    Click="OnStartButtonClick"
+                    Width="0">
+                <Button.RenderTransform>
+                    <ScaleTransform ScaleX="0" ScaleY="0"/>
+                </Button.RenderTransform>
+                <StackPanel>
+                    <Image Width="115" Height="115" Source="../Icons/Start.png"/>
+                    <TextBlock Text="Iniciar Execução" Style="{StaticResource TextStyle}"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Bottom"
+                    HorizontalAlignment="Center"
+                    Margin="0,80,0,0">
+            <Button Style="{DynamicResource CustomButtonStyle}"
+                    Click="OnSettingsButtonClick">
+                <StackPanel>
+                    <Image Width="128" Height="128" Source="../Icons/Settings.png"/>
+                    <TextBlock Text="Configurações" Style="{StaticResource TextStyle}"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </DockPanel>
 
 </Controls:MetroWindow>
