@@ -96,7 +96,7 @@
     <Compile Include="Engine\ProgramCounter.cs" />
     <Compile Include="Engine\Stack.cs" />
     <Compile Include="Helpers\BytesConverter.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="Properties\Settings.cs" />
     <Compile Include="View\ExecutionWindow.xaml.cs">
       <DependentUpon>ExecutionWindow.xaml</DependentUpon>
     </Compile>
