@@ -6,7 +6,7 @@
     public interface IOutputProvider
     {
         /// <summary>
-        /// Prints a value.
+        /// Prints a value to the output.
         /// </summary>
         /// <returns></returns>
         void Print(int value);
