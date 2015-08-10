@@ -9,7 +9,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
     public class ADDInstruction : IncrementalInstruction
     {
         /// <summary>
-        /// Executes the ADD instruction.
+        /// Adds the value on the top of the stack with the value just below it.
         /// </summary>
         /// <param name="context">The execution context.</param>
         /// <param name="parameters">Not used.</param>

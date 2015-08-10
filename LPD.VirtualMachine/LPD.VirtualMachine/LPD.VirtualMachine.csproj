@@ -75,7 +75,7 @@
     <Compile Include="Engine\ExecutionContext.cs" />
     <Compile Include="Engine\HAL\CPU.cs" />
     <Compile Include="Engine\HAL\Memory.cs" />
-    <Compile Include="Engine\Instructions\DIVInstruction.cs" />
+    <Compile Include="Engine\Instructions\DIVIInstruction.cs" />
     <Compile Include="Engine\Instructions\MULTInstruction.cs" />
     <Compile Include="Engine\Instructions\PRNInstruction.cs" />
     <Compile Include="Engine\Instructions\RDInstruction.cs" />
