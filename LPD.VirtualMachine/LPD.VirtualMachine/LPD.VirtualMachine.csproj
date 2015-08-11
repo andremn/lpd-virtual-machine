@@ -77,6 +77,12 @@
     <Compile Include="Engine\HAL\CPU.cs" />
     <Compile Include="Engine\HAL\Memory.cs" />
     <Compile Include="Engine\Instructions\ANDInstruction.cs" />
+    <Compile Include="Engine\Instructions\CDIFInstruction.cs" />
+    <Compile Include="Engine\Instructions\CEQInstruction.cs" />
+    <Compile Include="Engine\Instructions\CMAInstruction.cs" />
+    <Compile Include="Engine\Instructions\CMAQInstruction.cs" />
+    <Compile Include="Engine\Instructions\CMEInstruction.cs" />
+    <Compile Include="Engine\Instructions\CMEQInstruction.cs" />
     <Compile Include="Engine\Instructions\DIVIInstruction.cs" />
     <Compile Include="Engine\Instructions\INVInstruction.cs" />
     <Compile Include="Engine\Instructions\MULTInstruction.cs" />
