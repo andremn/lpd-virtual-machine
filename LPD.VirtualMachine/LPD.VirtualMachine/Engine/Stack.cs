@@ -94,9 +94,23 @@ namespace LPD.VirtualMachine.Engine
             _top--;
         }
 
+        /// <summary>
+        /// Gets the stack's top position and the value at this position as a string;
+        /// </summary>
+        /// <returns>A string that represents the stack's top position and the value at this position.</returns>
+        public override string ToString()
+        {
+            return $"[{_top.ToString()}] = {_array[_top]}";
+        }
+
+        /// <summary>
+        /// Throws an exception if a given position is greater than the maximum stack size 
+        /// or less than the minimum stack size.
+        /// </summary>
+        /// <param name="position">The stack's top position.</param>
         private void ThrownOnIndexOutOfRange(int position)
         {
-            if (position > _size)
+            if (position < -1 || position > _size)
             {
                 throw new IndexOutOfRangeException(nameof(position));
             }

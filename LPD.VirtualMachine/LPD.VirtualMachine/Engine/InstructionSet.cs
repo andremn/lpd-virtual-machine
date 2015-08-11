@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -180,19 +181,23 @@ namespace LPD.VirtualMachine.Engine
         public static async Task<InstructionSet> CreateFromFileAsync(string filePath)
         {
             InstructionSet collection;
+            string tempFile = Path.GetTempFileName();
 
-            using (var fileStream = File.OpenRead(filePath))
+            Assembler.AssembleFromFile(filePath, tempFile);
+
+            using (var fileStream = File.OpenRead(tempFile))
             {
                 using (var reader = new StreamReader(fileStream))
                 {
-                    string[] lines = (await reader.ReadToEndAsync()).Split('\n');
+                    string[] lines = (await reader.ReadToEndAsync()).Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
                     lines = lines.Select(line => line.TrimEnd()).ToArray();
                     collection = new InstructionSet(lines);
                     collection.Size = (int)fileStream.Length;
                 }
             }
-            
+
+            File.Delete(tempFile);
             return collection;
         }
     }

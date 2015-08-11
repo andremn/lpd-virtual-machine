@@ -111,6 +111,15 @@ namespace LPD.VirtualMachine.Engine.HAL
                     //... stops everything!
                     break;
                 }
+
+                //If the instruction name or parameter is NULL... 
+                if (currentInstructionName == NULL || (currentInstructionRaw.Length > 1 && currentInstructionRaw[1] == NULL))
+                {
+                    //... means we need do nothing or the instruction name is actually an address we may jump in the future.
+                    //The only thing we need to do is increment the program counter.
+                    _context.ProgramCounter.Increment();
+                    continue;
+                }
                 
                 Type currentInstructionType;
 
@@ -125,7 +134,7 @@ namespace LPD.VirtualMachine.Engine.HAL
                 IInstruction currentInstruction = (IInstruction)Activator.CreateInstance(currentInstructionType);
                 //Now the shit gets real...
                 //The instruction will be executed... fingers crossed!
-                currentInstruction.Execute(_context, currentInstructionRaw.Skip(1).ToArray());
+                currentInstruction.Execute(_context, currentInstructionRaw.Length > 1 ? currentInstructionRaw.Skip(1).ToArray() : null);
             }
 
             //Ok... we're done. Is someone waiting for us to complete?

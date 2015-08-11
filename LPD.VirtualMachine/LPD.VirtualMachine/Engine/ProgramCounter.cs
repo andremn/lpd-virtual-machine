@@ -43,5 +43,14 @@
         {
             _pc = value;
         }
+
+        /// <summary>
+        /// Return the program counter value as a string.
+        /// </summary>
+        /// <returns>A string that represents the current program counter value.</returns>
+        public override string ToString()
+        {
+            return _pc.ToString();
+        }
     }
 }
