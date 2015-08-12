@@ -10,10 +10,11 @@ namespace LPD.VirtualMachine.Engine.Instructions
             int first;
             int second;
             Stack stack = context.Memory.StackRegion;
-
+            
             first = stack.Load();
             stack.Down();
             second = stack.Load();
+
             if (first == 1 && second == 1)
             {
                 second = 1;
@@ -22,6 +23,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
             {
                 second = 0;
             }
+
             stack.Store(second);
         }
 

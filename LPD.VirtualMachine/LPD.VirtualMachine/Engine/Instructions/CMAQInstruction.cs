@@ -14,6 +14,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
             first = stack.Load();
             stack.Down();
             second = stack.Load();
+
             if (second >= first)
             {
                 second = 1;
@@ -22,6 +23,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
             {
                 second = 0;
             }
+
             stack.Store(second);
         }
     }
