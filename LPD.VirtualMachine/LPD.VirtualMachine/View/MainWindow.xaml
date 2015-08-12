@@ -11,37 +11,64 @@
                       MinWidth="700" MinHeight="600">
 
     <Window.Resources>
+        <Storyboard x:Key="DragBeginAnimation">
+            <DoubleAnimation Storyboard.TargetName="LoadButton"
+                             Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                             From="1.0" To="1.3" Duration="0:0:0.150"/>
+            <DoubleAnimation Storyboard.TargetName="LoadButton"
+                             Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                             From="1.0" To="1.3" Duration="0:0:0.150"/>
+        </Storyboard>
+        
+        <Storyboard x:Key="DragEndAnimation">
+            <DoubleAnimation Storyboard.TargetName="LoadButton"
+                             Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                             From="1.3" To="1.0" Duration="0:0:0.150"/>
+            <DoubleAnimation Storyboard.TargetName="LoadButton"
+                             Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                             From="1.3" To="1.0" Duration="0:0:0.150"/>
+        </Storyboard>
+        
         <Storyboard x:Key="StartButtonStoryboard">
             <ThicknessAnimation Storyboard.TargetName="StartButton" Storyboard.TargetProperty="Margin"
-                             From="0" To="50,0,0,0" Duration="0:0:0.300"/>
+                             From="0" To="50,13,0,0" Duration="0:0:0.300"/>
             <DoubleAnimation Storyboard.TargetName="StartButton" Storyboard.TargetProperty="Width" From="0" To="250"
                              Duration="0:0:0.300"/>
             <DoubleAnimation Storyboard.TargetName="StartButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
                              BeginTime="0:0:0.200"
                              From="0" To="1" Duration="0:0:0.600">
                 <DoubleAnimation.EasingFunction>
-                    <ElasticEase Oscillations="2" Springiness="3" EasingMode="EaseOut"/>
+                    <ElasticEase Oscillations="2" Springiness="5" EasingMode="EaseOut"/>
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
             <DoubleAnimation Storyboard.TargetName="StartButton" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
                              BeginTime="0:0:0.200"
                               From="0" To="1" Duration="0:0:0.600">
                 <DoubleAnimation.EasingFunction>
-                    <ElasticEase Oscillations="2" Springiness="3" EasingMode="EaseOut"/>
+                    <ElasticEase Oscillations="2" Springiness="5" EasingMode="EaseOut"/>
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
     </Window.Resources>
 
-    <DockPanel>
+    <StackPanel>
+        <TextBlock Text="Clique no botão logo abaixo para carregar um arquivo ou arreste o arquivo até ele"
+                   TextAlignment="Center"
+                   Style="{StaticResource TextStyle}"
+                   TextWrapping="Wrap"
+                   FontSize="22"/>
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Center"
-                    Margin="0,100,0,0"
-                    DockPanel.Dock="Top">
-            <Button Style="{DynamicResource CustomButtonStyle}"
-                    Click="OnLoadButtonClick">
+                    Margin="0,50,0,0">
+            <Button x:Name="LoadButton"
+                    Style="{DynamicResource CustomButtonStyle}"
+                    Click="OnLoadButtonClick"
+                    AllowDrop="True">
                 <StackPanel>
-                    <Image Width="128" Height="128" Source="../Icons/OpenFile.png"/>
+                    <Image Width="128" Height="128" Source="../Icons/OpenFile.png"
+                           DragEnter="OnLoadButtonDragEnter"
+                           DragLeave="OnLoadButtonDragLeave"
+                           Drop="OnLoadButtonDrop"/>
                     <TextBlock Text="Carregar Arquivo" Style="{StaticResource TextStyle}"/>
                 </StackPanel>
             </Button>
@@ -57,9 +84,8 @@
                 </StackPanel>
             </Button>
         </StackPanel>
-        <StackPanel DockPanel.Dock="Bottom"
-                    HorizontalAlignment="Center"
-                    Margin="0,80,0,0">
+        <StackPanel HorizontalAlignment="Center"
+                    Margin="0,50,0,0">
             <Button Style="{DynamicResource CustomButtonStyle}"
                     Click="OnSettingsButtonClick">
                 <StackPanel>
@@ -68,6 +94,6 @@
                 </StackPanel>
             </Button>
         </StackPanel>
-    </DockPanel>
+    </StackPanel>
 
 </Controls:MetroWindow>
