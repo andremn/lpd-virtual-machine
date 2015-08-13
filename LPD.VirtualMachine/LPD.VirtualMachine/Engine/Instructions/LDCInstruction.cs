@@ -13,9 +13,9 @@ namespace LPD.VirtualMachine.Engine.Instructions
         /// </summary>
         /// <param name="context">The execution context.</param>
         /// <param name="parameters">The constant to be stored.</param>
-        protected override void SpecificExecute(ExecutionContext context, string[] parameters)
+        protected override void SpecificExecute(ExecutionContext context, int[] parameters)
         {
-            int constant = int.Parse(parameters[0]);
+            int constant = parameters[0];
             Stack stack = context.Memory.StackRegion;
 
             stack.Up();

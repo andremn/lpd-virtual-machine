@@ -85,6 +85,9 @@
     <Compile Include="Engine\Instructions\CMEQInstruction.cs" />
     <Compile Include="Engine\Instructions\DIVIInstruction.cs" />
     <Compile Include="Engine\Instructions\INVInstruction.cs" />
+    <Compile Include="Engine\Instructions\CALLInstruction.cs" />
+    <Compile Include="Engine\Instructions\JMPFInstruction.cs" />
+    <Compile Include="Engine\Instructions\JMPInstruction.cs" />
     <Compile Include="Engine\Instructions\MULTInstruction.cs" />
     <Compile Include="Engine\Instructions\NEGInstruction.cs" />
     <Compile Include="Engine\Instructions\ORInstruction.cs" />
@@ -107,6 +110,7 @@
     <Compile Include="Engine\Stack.cs" />
     <Compile Include="Helpers\BytesConverter.cs" />
     <Compile Include="Properties\Settings.cs" />
+    <Compile Include="ViewModel\InstructionViewModel.cs" />
     <Compile Include="View\ExecutionWindow.xaml.cs">
       <DependentUpon>ExecutionWindow.xaml</DependentUpon>
     </Compile>

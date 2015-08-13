@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using static LPD.VirtualMachine.Engine.InstructionSet;
 
 namespace LPD.VirtualMachine.Engine
@@ -31,25 +33,25 @@ namespace LPD.VirtualMachine.Engine
             
             using (StreamReader reader = new StreamReader(File.OpenRead(inputFilePath)))
             {
-                string[] instructions = reader.ReadToEnd().Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                                              .Select(instruction => instruction.TrimEnd())
-                                              .ToArray();
+                string program = reader.ReadToEnd();
                 //First step
-                IDictionary<string, int> addresses = GetAddresses(instructions);
+                IDictionary<string, int> addresses = GetAddresses(program);
                 //Second step
-                instructions = AssembleInstructions(instructions, addresses);
+                string newProgram = AssembleInstructions(program, addresses);
                 //Third step
-                SaveFile(instructions, outputFilePath);
+                SaveFile(newProgram, outputFilePath);
             }
         }
 
         /// <summary>
         /// First step: get the addresses of the labels.
         /// </summary>
-        /// <param name="instructions">The instructions to get the addresses.</param>
+        /// <param name="program">The program to get the addresses.</param>
         /// <returns>A collection of label and its address.</returns>
-        private static IDictionary<string, int> GetAddresses(string[] instructions)
+        private static IDictionary<string, int> GetAddresses(string program)
         {
+            IEnumerable<string> instructions = program.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                                                      .Select(instruction => instruction.TrimEnd());
             Dictionary<string, int> addresses = new Dictionary<string, int>();
             int address = -1;
 
@@ -73,34 +75,31 @@ namespace LPD.VirtualMachine.Engine
         /// <summary>
         /// Second step: changes the instructions labels to their corresponding addresses.
         /// </summary>
-        /// <param name="instructions">The instructions to change the labels to addresses.</param>
+        /// <param name="program">The program to change the labels to addresses.</param>
         /// <param name="addresses">The collection of address and labels.</param>
-        /// <returns>The assembled instructions.</returns>
-        private static string[] AssembleInstructions(string[] instructions, IDictionary<string, int> addresses)
+        /// <returns>The assembled program.</returns>
+        private static string AssembleInstructions(string program, IDictionary<string, int> addresses)
         {
+            StringBuilder stringBuilder = new StringBuilder(program);
+
             foreach (var address in addresses)
             {
-                string instrutionToReplace = instructions[address.Value];
-
-                instructions[address.Value] = instrutionToReplace.Replace(address.Key, address.Value.ToString());
+                stringBuilder.Replace(address.Key, address.Value.ToString());
             }
 
-            return instructions;
+            return stringBuilder.ToString();
         }
 
         /// <summary>
         /// Third step: save the assembled program to a file.
         /// </summary>
-        /// <param name="instructions">The assembled instructions.</param>
+        /// <param name="newProgram">The assembled program.</param>
         /// <param name="path">The path of the file.</param>
-        private static void SaveFile(string[] instructions, string path)
+        private static void SaveFile(string newProgram, string path)
         {
             using (StreamWriter writer = new StreamWriter(File.OpenWrite(path)))
             {
-                foreach (string instruction in instructions)
-                {
-                    writer.WriteLine(instruction);
-                }
+                writer.Write(newProgram);
             }
         }
     }

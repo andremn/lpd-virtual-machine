@@ -2,6 +2,9 @@
 
 namespace LPD.VirtualMachine.Engine.Instructions
 {
+    /// <summary>
+    /// The MULT instruction.
+    /// </summary>
     [Instruction(MULT)]
     class MULTInstruction : IncrementalInstruction
     {
@@ -10,7 +13,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
         /// </summary>
         /// <param name="context">The execution context.</param>
         /// <param name="parameters">Not used.</param>
-        protected override void SpecificExecute(ExecutionContext context, string[] parameters)
+        protected override void SpecificExecute(ExecutionContext context, int[] parameters)
         {
             int first;
             int second;

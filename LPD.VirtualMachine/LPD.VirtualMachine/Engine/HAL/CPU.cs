@@ -132,9 +132,11 @@ namespace LPD.VirtualMachine.Engine.HAL
                 
                 //Gets the instruction. This time is for real!
                 IInstruction currentInstruction = (IInstruction)Activator.CreateInstance(currentInstructionType);
+                //The parameters are only integers.
+                int[] parameters = currentInstructionRaw.Skip(1).Select(parameter => int.Parse(parameter)).ToArray();
                 //Now the shit gets real...
                 //The instruction will be executed... fingers crossed!
-                currentInstruction.Execute(_context, currentInstructionRaw.Length > 1 ? currentInstructionRaw.Skip(1).ToArray() : null);
+                currentInstruction.Execute(_context, currentInstructionRaw.Length > 1 ? parameters : null);
             }
 
             //Ok... we're done. Is someone waiting for us to complete?

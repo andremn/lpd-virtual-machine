@@ -1,9 +1,13 @@
 ﻿using LPD.VirtualMachine.Engine;
 using LPD.VirtualMachine.Engine.HAL;
+using LPD.VirtualMachine.ViewModel;
 using MahApps.Metro.Controls;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
+using static System.IO.Path;
 
 namespace LPD.VirtualMachine.View
 {
@@ -17,13 +21,19 @@ namespace LPD.VirtualMachine.View
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExecutionWindow"/> class with the specified program name.
-        /// <param name="programName">The name of the program to be executed.</param>
+        /// <param name="filePath">The path of the program going to be executed.</param>
         /// </summary>
-        public ExecutionWindow(string programName)
+        public ExecutionWindow(string filePath)
         {
             InitializeComponent();
             Loaded += OnWindowLoaded;
-            Title += programName;
+            Title += GetFileNameWithoutExtension(filePath);
+            InstructionsDataGrid.DataContext = ConvertInstructionsToInstructionViewModel(filePath);
+
+            for (int i = 0; i < 10; i++)
+            {
+                StackTextBlock.Inlines.Add(i + "\n");
+            }
         }
 
         /// <summary>
@@ -73,6 +83,27 @@ namespace LPD.VirtualMachine.View
         private void OnWindowLoaded(object sender, RoutedEventArgs e)
         {
             CPU.Instance.BeginExecution();
+        }
+
+        private IList<InstructionViewModel> ConvertInstructionsToInstructionViewModel(string filePath)
+        {
+            string[] instructions = InstructionSet.CreateFromFile(filePath, false).Instructions;
+            IList<InstructionViewModel> instructionViewModel = new List<InstructionViewModel>(instructions.Length);
+
+            for (uint i = 0; i < instructions.Length; i++)
+            {
+                string instruction = instructions[i];
+
+                instructionViewModel.Add(new InstructionViewModel()
+                {
+                    Comment = "Instrução",
+                    //Removes various spaces and tabs and replace them by two tabs.
+                    Content = Regex.Replace(instruction, @"(?:\s+|\t+)", "\t\t"),
+                    LineNumber = i
+                });
+            }
+
+            return instructionViewModel;
         }
     }
 }

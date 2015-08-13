@@ -10,6 +10,6 @@
         /// </summary>
         /// <param name="context">The execution context.</param>
         /// <param name="parameters">The parameters for the instruction.</param>
-        void Execute(ExecutionContext context, string[] parameters);
+        void Execute(ExecutionContext context, int[] parameters);
     }
 }
