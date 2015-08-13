@@ -76,6 +76,7 @@
     <Compile Include="Engine\ExecutionContext.cs" />
     <Compile Include="Engine\HAL\CPU.cs" />
     <Compile Include="Engine\HAL\Memory.cs" />
+    <Compile Include="Engine\Instructions\ALLOCInstruction.cs" />
     <Compile Include="Engine\Instructions\ANDInstruction.cs" />
     <Compile Include="Engine\Instructions\CDIFInstruction.cs" />
     <Compile Include="Engine\Instructions\CEQInstruction.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Engine\Instructions\CMAQInstruction.cs" />
     <Compile Include="Engine\Instructions\CMEInstruction.cs" />
     <Compile Include="Engine\Instructions\CMEQInstruction.cs" />
+    <Compile Include="Engine\Instructions\DALLOCInstruction.cs" />
     <Compile Include="Engine\Instructions\DIVIInstruction.cs" />
     <Compile Include="Engine\Instructions\INVInstruction.cs" />
     <Compile Include="Engine\Instructions\CALLInstruction.cs" />
@@ -93,6 +95,7 @@
     <Compile Include="Engine\Instructions\ORInstruction.cs" />
     <Compile Include="Engine\Instructions\PRNInstruction.cs" />
     <Compile Include="Engine\Instructions\RDInstruction.cs" />
+    <Compile Include="Engine\Instructions\RETURNInstruction.cs" />
     <Compile Include="Engine\Instructions\SUBInstruction.cs" />
     <Compile Include="Engine\IOutputProvider.cs" />
     <Compile Include="Engine\IInputProvider.cs" />
