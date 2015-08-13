@@ -14,7 +14,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
             first = stack.Load();
             stack.Down();
             second = stack.Load();
-            if (first == 1 && second == 1)
+            if (first == 1 || second == 1)
             {
                 second = 1;
             }
