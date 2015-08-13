@@ -2,6 +2,9 @@
 
 namespace LPD.VirtualMachine.Engine.Instructions
 {
+    /// <summary>
+    /// The DIVI instruction.
+    /// </summary>
     [Instruction(DIVI)]
     class DIVIInstruction : IncrementalInstruction
     {

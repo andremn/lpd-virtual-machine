@@ -2,6 +2,9 @@
 
 namespace LPD.VirtualMachine.Engine.Instructions
 {
+    /// <summary>
+    /// The SUB instruction.
+    /// </summary>
     [Instruction(SUB)]
     class SUBInstruction: IncrementalInstruction
     {

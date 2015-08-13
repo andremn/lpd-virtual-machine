@@ -2,6 +2,9 @@
 
 namespace LPD.VirtualMachine.Engine.Instructions
 {
+    /// <summary>
+    /// The MULT instruction.
+    /// </summary>
     [Instruction(MULT)]
     class MULTInstruction : IncrementalInstruction
     {

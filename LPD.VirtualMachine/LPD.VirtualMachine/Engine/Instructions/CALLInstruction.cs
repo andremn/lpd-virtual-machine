@@ -3,13 +3,13 @@
 namespace LPD.VirtualMachine.Engine.Instructions
 {
     /// <summary>
-    /// The JMP instruction.
+    /// The CALL instruction.
     /// </summary>
-    [Instruction(JMP)]
-    class JMPInstruction : JumpableInstruction
+    [Instruction(CALL)]
+    class CALLInstruction : JumpableInstruction
     {
         /// <summary>
-        /// Jumps to the specified address.
+        /// Jumps to the specified address and saves the next instruction address in the stack.
         /// </summary>
         /// <param name="context">The execution context.</param>
         /// <param name="parameters">The address to jump.</param>
@@ -17,7 +17,10 @@ namespace LPD.VirtualMachine.Engine.Instructions
         public override int SpecificExecute(ExecutionContext context, int[] parameters)
         {
             int address = parameters[0];
+            Stack stack = context.Memory.StackRegion;
 
+            stack.Up();
+            stack.Store(context.ProgramCounter.Current + 1);
             return address;
         }
     }

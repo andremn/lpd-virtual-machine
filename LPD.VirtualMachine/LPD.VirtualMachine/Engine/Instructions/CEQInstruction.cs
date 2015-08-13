@@ -2,9 +2,18 @@
 
 namespace LPD.VirtualMachine.Engine.Instructions
 {
+    /// <summary>
+    /// The CEQ instruction.
+    /// </summary>
     [Instruction(CEQ)]
     class CEQInstruction : IncrementalInstruction
     {
+        /// <summary>
+        /// Compares if the first two values in the stack are equal.
+        /// The result is loaded to the second value address.
+        /// </summary>
+        /// <param name="context">The execution context.</param>
+        /// <param name="parameters">Not used.</param>
         protected override void SpecificExecute(ExecutionContext context, int[] parameters)
         {
             int first;
