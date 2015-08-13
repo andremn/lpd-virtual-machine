@@ -5,7 +5,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
     [Instruction(INV)]
     class INVInstruction: IncrementalInstruction
     {
-        protected override void SpecificExecute(ExecutionContext context, string[] parameters)
+        protected override void SpecificExecute(ExecutionContext context, int[] parameters)
         {
             int first;            
             Stack stack = context.Memory.StackRegion;

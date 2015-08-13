@@ -85,6 +85,7 @@
     <Compile Include="Engine\Instructions\CMEQInstruction.cs" />
     <Compile Include="Engine\Instructions\DIVIInstruction.cs" />
     <Compile Include="Engine\Instructions\INVInstruction.cs" />
+    <Compile Include="Engine\Instructions\JMPInstruction.cs" />
     <Compile Include="Engine\Instructions\MULTInstruction.cs" />
     <Compile Include="Engine\Instructions\NEGInstruction.cs" />
     <Compile Include="Engine\Instructions\ORInstruction.cs" />

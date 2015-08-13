@@ -5,7 +5,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
     [Instruction(CDIF)]
     class CDIFInstruction : IncrementalInstruction
     {
-        protected override void SpecificExecute(ExecutionContext context, string[] parameters)
+        protected override void SpecificExecute(ExecutionContext context, int[] parameters)
         {
             int first;
             int second;

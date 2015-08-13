@@ -11,7 +11,7 @@
         /// <param name="context">The execution context.</param>
         /// <param name="parameters">The instructions parameters, if any. 
         /// Use null if the instruction has no parameters.</param>
-        public void Execute(ExecutionContext context, string[] parameters)
+        public void Execute(ExecutionContext context, int[] parameters)
         {
             context.ProgramCounter.Increment();
             SpecificExecute(context, parameters);
@@ -23,6 +23,6 @@
         /// <param name="context">The execution context.</param>
         /// <param name="parameters">The instruction parameters, if any.
         /// Use null if the instruction has no parameters.</param>
-        protected abstract void SpecificExecute(ExecutionContext context, string[] parameters);
+        protected abstract void SpecificExecute(ExecutionContext context, int[] parameters);
     }
 }

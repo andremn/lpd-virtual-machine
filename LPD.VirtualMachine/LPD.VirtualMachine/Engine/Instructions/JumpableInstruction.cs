@@ -18,7 +18,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
         /// <param name="context">The execution context.</param>
         /// <param name="parameters">The instructions parameters, if any.
         /// Use null if the instruction has no parameters.</param>
-        public void Execute(ExecutionContext context, string[] parameters)
+        public void Execute(ExecutionContext context, int[] parameters)
         {
             context.ProgramCounter.Jump(SpecificExecute(context, parameters));
         }
@@ -31,6 +31,6 @@ namespace LPD.VirtualMachine.Engine.Instructions
         /// Use null if the instruction has no parameters.</param>
         /// <returns>The position to set the program counter. 
         /// In other words, the position to jump.</returns>
-        public abstract int SpecificExecute(ExecutionContext context, string[] parameters);
+        public abstract int SpecificExecute(ExecutionContext context, int[] parameters);
     }
 }

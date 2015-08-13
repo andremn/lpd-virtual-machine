@@ -5,7 +5,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
     [Instruction(CMEQ)]
     class CMEQInstruction : IncrementalInstruction
     {
-        protected override void SpecificExecute(ExecutionContext context, string[] parameters)
+        protected override void SpecificExecute(ExecutionContext context, int[] parameters)
         {
             int first;
             int second;
