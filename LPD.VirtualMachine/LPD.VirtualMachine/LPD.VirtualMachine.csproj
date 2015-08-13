@@ -110,6 +110,7 @@
     <Compile Include="Engine\Stack.cs" />
     <Compile Include="Helpers\BytesConverter.cs" />
     <Compile Include="Properties\Settings.cs" />
+    <Compile Include="ViewModel\InstructionViewModel.cs" />
     <Compile Include="View\ExecutionWindow.xaml.cs">
       <DependentUpon>ExecutionWindow.xaml</DependentUpon>
     </Compile>

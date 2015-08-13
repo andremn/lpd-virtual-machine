@@ -7,21 +7,39 @@
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         GlowBrush="{DynamicResource AccentColorBrush}"                      
-        Title="Executando - " Height="300" Width="300" WindowState="Maximized">
+        Title="Executando - " Height="600" Width="800"
+        MinHeight="600" MinWidth="800">
 
-    <Controls:MetroWindow.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Controls:MetroWindow.Resources>
-    
-    <ScrollViewer>
-        <StackPanel>
-            <TextBlock x:Name="OutputTextBlock"
-                       FontSize="16" 
-                       FontFamily="Global Monospace"/>
-        </StackPanel>
-    </ScrollViewer>
+    <Grid>
+        <DockPanel>
+            <ScrollViewer DockPanel.Dock="Right"
+                          MinWidth="50">
+                <StackPanel>
+                    <TextBlock Foreground="#FF707070"
+                               FontSize="16"
+                               Text=""/>
+                    <TextBlock x:Name="StackTextBlock"
+                               FontSize="16"/>
+                </StackPanel>
+            </ScrollViewer>
+            <StackPanel DockPanel.Dock="Top">
+                <DataGrid x:Name="InstructionsDataGrid"
+                          AutoGenerateColumns="True"
+                          ItemsSource="{Binding}"
+                          ColumnWidth="0.5*"
+                        MaxHeight="400"/>
+                <Separator/>
+            </StackPanel>
+            <ScrollViewer>
+                <StackPanel DockPanel.Dock="Bottom">
+                    <TextBlock Foreground="#FF707070"
+                           FontSize="16"
+                           Text="Saída"
+                           Margin="0,0,0,5"/>
+                    <TextBlock x:Name="OutputTextBlock"
+                           FontSize="16"/>
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
+    </Grid>
 </Controls:MetroWindow>

@@ -178,18 +178,22 @@ namespace LPD.VirtualMachine.Engine
         /// </summary>
         /// <param name="filePath">The location of the file to read the instructions from.</param>
         /// <returns><see cref="InstructionSet"/></returns>
-        public static async Task<InstructionSet> CreateFromFileAsync(string filePath)
+        public static InstructionSet CreateFromFile(string filePath, bool assemble = true)
         {
             InstructionSet collection;
-            string tempFile = Path.GetTempFileName();
+            string tempFile = null;
 
-            Assembler.AssembleFromFile(filePath, tempFile);
+            if (assemble)
+            {
+                tempFile = Path.GetTempFileName();
+                Assembler.AssembleFromFile(filePath, tempFile);
+            }
 
-            using (var fileStream = File.OpenRead(tempFile))
+            using (var fileStream = File.OpenRead(tempFile ?? filePath))
             {
                 using (var reader = new StreamReader(fileStream))
                 {
-                    string[] lines = (await reader.ReadToEndAsync()).Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] lines = reader.ReadToEnd().Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
                     lines = lines.Select(line => line.TrimEnd()).ToArray();
                     collection = new InstructionSet(lines);
@@ -197,7 +201,11 @@ namespace LPD.VirtualMachine.Engine
                 }
             }
 
-            File.Delete(tempFile);
+            if (tempFile != null)
+            {
+                File.Delete(tempFile);
+            }
+
             return collection;
         }
     }

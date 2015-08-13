@@ -5,11 +5,8 @@ using MahApps.Metro.Controls;
 using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using static System.IO.Path;
-using System;
 
 namespace LPD.VirtualMachine.View
 {
@@ -86,12 +83,12 @@ namespace LPD.VirtualMachine.View
             PrepareExecution();
         }
 
-        private async void PrepareExecution()
+        private void PrepareExecution()
         {
-            _executionWindow = new ExecutionWindow(GetFileNameWithoutExtension(_selectedFilePath));
+            _executionWindow = new ExecutionWindow(_selectedFilePath);
 
             int virtualMachineSize = (int)Settings.Default[App.SystemMemorySettingKey];
-            InstructionSet instructionsCollection = await InstructionSet.CreateFromFileAsync(_selectedFilePath);
+            InstructionSet instructionsCollection = InstructionSet.CreateFromFile(_selectedFilePath);
             Memory memory = Memory.CreateMemory(virtualMachineSize, instructionsCollection);
             ExecutionContext context = new ExecutionContext()
             {
