@@ -60,7 +60,7 @@ namespace LPD.VirtualMachine.View
         /// Called when the caller finished its executin due to a faltal error.
         /// </summary>
         /// <param name="error">The error data.</param>
-        public void OnFatalError(object error)
+        public void OnFatalError(string error)
         {
 
         }

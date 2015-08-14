@@ -144,7 +144,7 @@ namespace LPD.VirtualMachine.Engine.HAL
                 }
                 catch (InvalidInstructionException e)
                 {
-                    _executor.OnFatalError(e);
+                    _executor.OnFatalError(e.Message);
                     return;
                 }
             }

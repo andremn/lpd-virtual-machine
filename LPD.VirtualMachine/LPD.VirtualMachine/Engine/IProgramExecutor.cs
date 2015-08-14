@@ -19,7 +19,7 @@
         /// Called when a fatal error ocurred in the caller.
         /// </summary>
         /// <param name="error"></param>
-        void OnFatalError(object error);
+        void OnFatalError(string error);
         
         /// <summary>
         /// Called when the caller is ready to execute an instruction.
