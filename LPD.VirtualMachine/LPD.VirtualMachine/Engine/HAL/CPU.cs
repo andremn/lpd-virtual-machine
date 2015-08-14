@@ -138,7 +138,15 @@ namespace LPD.VirtualMachine.Engine.HAL
                 int[] parameters = currentInstructionRaw.Skip(1).Select(parameter => int.Parse(parameter)).ToArray();
                 //Now the shit gets real...
                 //The instruction will be executed... fingers crossed!
-                currentInstruction.Execute(context, currentInstructionRaw.Length > 1 ? parameters : null);
+                try
+                {
+                    currentInstruction.Execute(context, currentInstructionRaw.Length > 1 ? parameters : null);
+                }
+                catch (InvalidInstructionException e)
+                {
+                    _executor.OnFatalError(e);
+                    return;
+                }
             }
 
             //Ok... we're done. Is someone waiting for us to complete?
@@ -146,7 +154,7 @@ namespace LPD.VirtualMachine.Engine.HAL
             {
                 //Yeah, someone care about us! 
                 //Let's just tell the guys we're over
-                Finished(this, EventArgs.Empty);
+                _executor.OnFinished();
             }
         }
 
