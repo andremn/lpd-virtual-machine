@@ -98,6 +98,7 @@
     <Compile Include="Engine\Instructions\RDInstruction.cs" />
     <Compile Include="Engine\Instructions\RETURNInstruction.cs" />
     <Compile Include="Engine\Instructions\SUBInstruction.cs" />
+    <Compile Include="Engine\ExecutionException.cs" />
     <Compile Include="Engine\IOutputProvider.cs" />
     <Compile Include="Engine\IInputProvider.cs" />
     <Compile Include="Engine\InstructionSet.cs" />
