@@ -34,7 +34,7 @@
                              TextAlignment="Center"
                              Margin="20,0,5,0"
                              TextChanged="OnMemoryTextBoxTextChanged"/>
-                    <TextBlock Text="KB"
+                    <TextBlock Text="B"
                                VerticalAlignment="Center"/>
                 </StackPanel>
             </StackPanel>

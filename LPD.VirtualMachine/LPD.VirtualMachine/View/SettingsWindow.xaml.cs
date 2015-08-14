@@ -14,12 +14,12 @@ namespace LPD.VirtualMachine.View
         /// <summary>
         /// The minimum virtual machine memory.
         /// </summary>
-        private const double MinimumMemory = 1;
+        private const double MinimumMemory = 128;
         
         /// <summary>
         /// The maximum virtual machine memory.
         /// </summary>
-        private const double MaximumMemory = 128;
+        private const double MaximumMemory = 512;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsWindow"/> class.
@@ -31,7 +31,7 @@ namespace LPD.VirtualMachine.View
             MaximumSliderValueTextBlock.Text = MaximumMemory.ToString();
             MemorySlider.Minimum = MinimumMemory;
             MemorySlider.Maximum = MaximumMemory;
-            MemorySlider.Value = BytesConverter.ConvertBytesToKiloBytes((int)Settings.Default[App.SystemMemorySettingKey]);
+            MemorySlider.Value = (int)Settings.Default[App.SystemMemorySettingKey];
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace LPD.VirtualMachine.View
         /// </summary>
         private void SaveMemorySetting()
         {
-            Settings.Default[App.SystemMemorySettingKey] = BytesConverter.ConvertKiloBytesToBytes((int)MemorySlider.Value);
+            Settings.Default[App.SystemMemorySettingKey] = (int)MemorySlider.Value;
             Settings.Default.Save();
         }
 
