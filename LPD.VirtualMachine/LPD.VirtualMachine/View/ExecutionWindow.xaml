@@ -9,37 +9,71 @@
         GlowBrush="{DynamicResource AccentColorBrush}"                      
         Title="Executando - " Height="600" Width="800"
         MinHeight="600" MinWidth="800">
-
+    
     <Grid>
-        <DockPanel>
-            <ScrollViewer DockPanel.Dock="Right"
-                          MinWidth="50">
-                <StackPanel>
-                    <TextBlock Foreground="#FF707070"
-                               FontSize="16"
-                               Text=""/>
-                    <TextBlock x:Name="StackTextBlock"
-                               FontSize="16"/>
-                </StackPanel>
-            </ScrollViewer>
-            <StackPanel DockPanel.Dock="Top">
-                <DataGrid x:Name="InstructionsDataGrid"
-                          AutoGenerateColumns="True"
-                          ItemsSource="{Binding}"
-                          ColumnWidth="0.5*"
-                        MaxHeight="400"/>
-                <Separator/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.75*"/>
+            <ColumnDefinition Width="0.25*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="0.4*"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="Instruções" Grid.Column="0">
+            <DataGrid x:Name="InstructionsDataGrid"
+                      AutoGenerateColumns="True"
+                      ItemsSource="{Binding}"
+                      ColumnWidth="*"/>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Header="Pilha">
+            <ListView x:Name="StackListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}"
+                                   FontSize="16"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Grid.Column="0" Header="Saída">
+            <ListView x:Name="OutputListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}"
+                                   FontSize="16"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Grid.Column="1" Header="Execução">
+            <StackPanel>
+                <Button Style="{StaticResource CustomButtonStyle}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Icons/Start.png"
+                       Stretch="UniformToFill"
+                       Width="16"
+                       Height="16"
+                       Margin="0,0,10,0"/>
+                        <TextBlock Text="Executar tudo"/>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource CustomButtonStyle}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="OnNextInstructionButtonClick">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Icons/Start.png"
+                               Stretch="UniformToFill"
+                               Width="16"
+                               Height="16"
+                               Margin="0,0,10,0"/>
+                        <TextBlock Text="Próxima instrução"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
-            <ScrollViewer>
-                <StackPanel DockPanel.Dock="Bottom">
-                    <TextBlock Foreground="#FF707070"
-                           FontSize="16"
-                           Text="Saída"
-                           Margin="0,0,0,5"/>
-                    <TextBlock x:Name="OutputTextBlock"
-                           FontSize="16"/>
-                </StackPanel>
-            </ScrollViewer>
-        </DockPanel>
+        </GroupBox>
     </Grid>
 </Controls:MetroWindow>

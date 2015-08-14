@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using static LPD.VirtualMachine.Engine.InstructionSet;
 
@@ -35,12 +36,12 @@ namespace LPD.VirtualMachine.Engine.HAL
         /// The CPU's known instructions.
         /// </summary>
         private Dictionary<string, Type> _knownInstructionTypes;
-        
+
         /// <summary>
-        /// The execution context being used by the CPU.
+        /// The program executor.
         /// </summary>
-        private ExecutionContext _context;
-        
+        private IProgramExecutor _executor;
+                
         /// <summary>
         /// Initializes a new instance of the <see cref="CPU"/> class.
         /// </summary>
@@ -54,42 +55,43 @@ namespace LPD.VirtualMachine.Engine.HAL
         public event EventHandler Finished;
 
         /// <summary>
-        /// Initializes the CPU with the specified execution context.
-        /// </summary>
-        /// <param name="context">The execution context.</param>
-        public void Initialize(ExecutionContext context)
-        {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            _context = context;
-            InitializeTypes();
-        }
-
-        /// <summary>
         /// Starts the execution of instructions that resides in the memory.
         /// The execution is done in a separate thread.
         /// </summary>
-        public void BeginExecution()
+        /// <param name="executor">Who is handling the program execution.</param>
+        public void BeginExecution(IProgramExecutor executor)
         {
+            if (executor == null)
+            {
+                throw new ArgumentNullException(nameof(executor));
+            }
+
+            _executor = executor;
+            InitializeTypes();
             //Run all the processing in another thread, so we do not block the UI.
-            Task.Factory.StartNew(ExecuteToEnd);
+            Task.Factory.StartNew(Execute);
         }
 
         /// <summary>
         /// Executes all the instructions in the specified memory until the terminte instruction (HLT).
         /// </summary>
-        private void ExecuteToEnd()
+        private void Execute()
         {
-            string[] instructions = _context.Memory.InstructionsRegion;
+            ExecutionContext context = _executor.Context;
+            string[] instructions = context.Memory.InstructionsRegion;
             
             //Executes the instructions until a 'HLT' instruction is found.
             while (true)
             {
+                //Are we in debug mode?
+                if (context.Mode == ExecutionMode.Debug)
+                {
+                    //Let's wait...
+                    _executor.OnInstructionReadyToExecute();
+                }
+
                 //The first thing we need is to get the program counter from the current context.
-                int pc = _context.ProgramCounter.Current;
+                int pc = context.ProgramCounter.Current;
 
                 //Oh noooo!! Some instruction just set the PC to a invalid position.
                 //We cannot go on...
@@ -117,7 +119,7 @@ namespace LPD.VirtualMachine.Engine.HAL
                 {
                     //... means we need do nothing or the instruction name is actually an address we may jump in the future.
                     //The only thing we need to do is increment the program counter.
-                    _context.ProgramCounter.Increment();
+                    context.ProgramCounter.Increment();
                     continue;
                 }
                 
@@ -136,7 +138,7 @@ namespace LPD.VirtualMachine.Engine.HAL
                 int[] parameters = currentInstructionRaw.Skip(1).Select(parameter => int.Parse(parameter)).ToArray();
                 //Now the shit gets real...
                 //The instruction will be executed... fingers crossed!
-                currentInstruction.Execute(_context, currentInstructionRaw.Length > 1 ? parameters : null);
+                currentInstruction.Execute(context, currentInstructionRaw.Length > 1 ? parameters : null);
             }
 
             //Ok... we're done. Is someone waiting for us to complete?

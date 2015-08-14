@@ -74,6 +74,7 @@
     </Compile>
     <Compile Include="Engine\Assembler.cs" />
     <Compile Include="Engine\ExecutionContext.cs" />
+    <Compile Include="Engine\ExecutionMode.cs" />
     <Compile Include="Engine\HAL\CPU.cs" />
     <Compile Include="Engine\HAL\Memory.cs" />
     <Compile Include="Engine\Instructions\ALLOCInstruction.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Engine\Instructions\STARTInstruction.cs" />
     <Compile Include="Engine\InvalidInstructionException.cs" />
     <Compile Include="Engine\InvalidProgramCounterException.cs" />
+    <Compile Include="Engine\IProgramExecutor.cs" />
     <Compile Include="Engine\ProgramCounter.cs" />
     <Compile Include="Engine\Stack.cs" />
     <Compile Include="Helpers\BytesConverter.cs" />

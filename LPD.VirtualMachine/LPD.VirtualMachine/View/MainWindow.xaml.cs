@@ -85,20 +85,18 @@ namespace LPD.VirtualMachine.View
 
         private void PrepareExecution()
         {
-            _executionWindow = new ExecutionWindow(_selectedFilePath);
-
             int virtualMachineSize = (int)Settings.Default[App.SystemMemorySettingKey];
             InstructionSet instructionsCollection = InstructionSet.CreateFromFile(_selectedFilePath);
             Memory memory = Memory.CreateMemory(virtualMachineSize, instructionsCollection);
             ExecutionContext context = new ExecutionContext()
             {
                 ProgramCounter = new ProgramCounter(CPU.InitialProgramCounter),
-                InputProvider = (IInputProvider)_executionWindow,
-                OutputProvider = (IOutputProvider)_executionWindow,
                 Memory = memory
             };
-
-            CPU.Instance.Initialize(context);
+            
+            _executionWindow = new ExecutionWindow(_selectedFilePath, context);
+            context.InputProvider = _executionWindow as IInputProvider;
+            context.OutputProvider = _executionWindow as IOutputProvider;
 
             if (!_isStartButtonVisible)
             {
@@ -113,6 +111,18 @@ namespace LPD.VirtualMachine.View
         /// <param name="e">The info of the event.</param>
         private void OnStartButtonClick(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult messageBoxResult = MessageBox.Show("Rodar em modo debug?", "Modo de execução", MessageBoxButton.YesNo);
+            IProgramExecutor executor = _executionWindow as IProgramExecutor;
+
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                executor.Context.Mode = ExecutionMode.Debug;
+            }
+            else
+            {
+                executor.Context.Mode = ExecutionMode.Normal;
+            }
+
             _executionWindow.ShowDialog();
         }
 

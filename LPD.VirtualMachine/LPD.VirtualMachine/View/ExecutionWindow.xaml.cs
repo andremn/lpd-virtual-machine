@@ -14,26 +14,54 @@ namespace LPD.VirtualMachine.View
     /// <summary>
     /// Interaction logic for ExecutionWindow.xaml
     /// </summary>
-    public partial class ExecutionWindow : MetroWindow, IInputProvider, IOutputProvider
+    public partial class ExecutionWindow : MetroWindow, IInputProvider, IOutputProvider, IProgramExecutor
     {
         private int _nextInputValue;
-        private ManualResetEvent _mre = new ManualResetEvent(false);
+        private ManualResetEventSlim _manualResetSlim = new ManualResetEventSlim(false);
+        private EventWaitHandle _executionSynchronizer;
+
+        /// <summary>
+        /// Gets the current execution context.
+        /// </summary>
+        public Engine.ExecutionContext Context { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExecutionWindow"/> class with the specified program name.
         /// <param name="filePath">The path of the program going to be executed.</param>
+        /// <param name="context">The execution context.</param>
         /// </summary>
-        public ExecutionWindow(string filePath)
+        public ExecutionWindow(string filePath, Engine.ExecutionContext context)
         {
             InitializeComponent();
             Loaded += OnWindowLoaded;
             Title += GetFileNameWithoutExtension(filePath);
             InstructionsDataGrid.DataContext = ConvertInstructionsToInstructionViewModel(filePath);
+            Context = context;
+        }
 
-            for (int i = 0; i < 10; i++)
-            {
-                StackTextBlock.Inlines.Add(i + "\n");
-            }
+        /// <summary>
+        /// Called when the caller finished executing the current instruction.
+        /// </summary>
+        public void OnInstructionReadyToExecute()
+        {
+            _executionSynchronizer.WaitOne();
+        }
+
+        /// <summary>
+        /// Called when the caller finished its execution.
+        /// </summary>
+        public void OnFinished()
+        {
+
+        }
+
+        /// <summary>
+        /// Called when the caller finished its executin due to a faltal error.
+        /// </summary>
+        /// <param name="error">The error data.</param>
+        public void OnFatalError(object error)
+        {
+
         }
 
         /// <summary>
@@ -44,7 +72,7 @@ namespace LPD.VirtualMachine.View
         {
             TextCompositionManager.AddTextInputHandler(this, OnTextComposition);
             //Since the CPU execution is not done on the UI thread, this will not block the UI
-            _mre.WaitOne();
+            _manualResetSlim.Wait();
             return _nextInputValue;
         }
 
@@ -59,8 +87,7 @@ namespace LPD.VirtualMachine.View
 
         private void AppendLineToOutput(string line)
         {
-            this.OutputTextBlock.Inlines.Add(line);
-            this.OutputTextBlock.Inlines.Add("\n");
+            OutputListView.Items.Add(line);
         }
 
         /// <summary>
@@ -72,7 +99,8 @@ namespace LPD.VirtualMachine.View
         {
             _nextInputValue = int.Parse(e.Text);
             TextCompositionManager.RemoveTextInputHandler(this, OnTextComposition);
-            _mre.Set();
+            _manualResetSlim.Set();
+            _manualResetSlim.Reset();
         }
 
         /// <summary>
@@ -82,7 +110,9 @@ namespace LPD.VirtualMachine.View
         /// <param name="e">The event's info.</param>
         private void OnWindowLoaded(object sender, RoutedEventArgs e)
         {
-            CPU.Instance.BeginExecution();
+            _executionSynchronizer = new EventWaitHandle(false, EventResetMode.AutoReset);
+            InstructionsDataGrid.SelectedIndex = 0;
+            CPU.Instance.BeginExecution(this);
         }
 
         private IList<InstructionViewModel> ConvertInstructionsToInstructionViewModel(string filePath)
@@ -104,6 +134,15 @@ namespace LPD.VirtualMachine.View
             }
 
             return instructionViewModel;
+        }
+
+        private void OnNextInstructionButtonClick(object sender, RoutedEventArgs e)
+        {
+            int currentInstructionAddress = Context.ProgramCounter.Current + 1;
+
+            InstructionsDataGrid.SelectedIndex = currentInstructionAddress;
+            InstructionsDataGrid.ScrollIntoView(InstructionsDataGrid.Items[currentInstructionAddress]);
+            _executionSynchronizer.Set();
         }
     }
 }

@@ -32,6 +32,11 @@ namespace LPD.VirtualMachine.Engine
         }
 
         /// <summary>
+        /// Raised when the stack changes.
+        /// </summary>
+        public event EventHandler Changed;
+
+        /// <summary>
         /// Gets the current position of the stack.
         /// </summary>
         public int Top

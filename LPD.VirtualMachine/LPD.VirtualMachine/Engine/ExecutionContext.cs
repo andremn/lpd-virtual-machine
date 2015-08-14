@@ -25,6 +25,11 @@ namespace LPD.VirtualMachine.Engine
         public Memory Memory { get; set; }
 
         /// <summary>
+        /// Gets or sets the mode the program is executed.
+        /// </summary>
+        public ExecutionMode Mode { get; set; }
+
+        /// <summary>
         /// Gets or sets the input provider used by the current execution context.
         /// </summary>
         public IInputProvider InputProvider { get; set; }
