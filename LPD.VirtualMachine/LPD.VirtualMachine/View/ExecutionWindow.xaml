@@ -60,7 +60,7 @@
                         <TextBlock Text="Executar tudo"/>
                     </StackPanel>
                 </Button>
-                <Button Style="{StaticResource CustomButtonStyle}"
+                <Button x:Name="NextInstructionButton" Style="{StaticResource CustomButtonStyle}"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="OnNextInstructionButtonClick">

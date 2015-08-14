@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using static System.IO.Path;
+using System.ComponentModel;
 
 namespace LPD.VirtualMachine.View
 {
@@ -52,7 +53,7 @@ namespace LPD.VirtualMachine.View
         /// </summary>
         public void OnFinished()
         {
-
+            
         }
 
         /// <summary>
@@ -113,6 +114,17 @@ namespace LPD.VirtualMachine.View
             _executionSynchronizer = new EventWaitHandle(false, EventResetMode.AutoReset);
             InstructionsDataGrid.SelectedIndex = 0;
             CPU.Instance.BeginExecution(this);
+        }
+
+        /// <summary>
+        /// Occurs when the windows is about to get closed.
+        /// </summary>
+        /// <param name="e">The event data.</param>
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
+            base.OnClosing(e);
         }
 
         private IList<InstructionViewModel> ConvertInstructionsToInstructionViewModel(string filePath)
