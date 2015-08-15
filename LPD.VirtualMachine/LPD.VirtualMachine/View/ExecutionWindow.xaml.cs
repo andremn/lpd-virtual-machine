@@ -209,13 +209,18 @@ namespace LPD.VirtualMachine.View
             CPU.Instance.BeginExecution(this);
         }
 
+        /// <summary>
+        /// Get the value for a <see cref="DisplayNameAttribute"/> object.
+        /// </summary>
+        /// <param name="descriptor">The property info.</param>
+        /// <returns></returns>
         private static string GetPropertyDisplayName(object descriptor)
         {
             var pd = descriptor as PropertyDescriptor;
 
             if (pd != null)
             {
-                // Check for DisplayName attribute and set the column header accordingly
+                //Check for DisplayName attribute and set the column header accordingly.
                 DisplayNameAttribute displayName = pd.Attributes[typeof(DisplayNameAttribute)] as DisplayNameAttribute;
 
                 if (displayName != null && displayName != DisplayNameAttribute.Default)
@@ -230,7 +235,7 @@ namespace LPD.VirtualMachine.View
 
                 if (propertyInfo != null)
                 {
-                    // Check for DisplayName attribute and set the column header accordingly
+                    //Check for DisplayName attribute and set the column header accordingly.
                     object[] attributes = propertyInfo.GetCustomAttributes(typeof(DisplayNameAttribute), true);
 
                     for (int i = 0; i < attributes.Length; ++i)
@@ -267,6 +272,9 @@ namespace LPD.VirtualMachine.View
             }
         }
 
+        /// <summary>
+        /// Updates the output with was inputed.
+        /// </summary>
         private void UpdateInputLineOnOutput()
         {
             int index = OutputListView.Items.Count - 1;
@@ -274,6 +282,11 @@ namespace LPD.VirtualMachine.View
             OutputListView.Items[index] = InputEnterValueText + _inputBuffer;
         }
 
+        /// <summary>
+        /// Occurs when a column of a DataGrid is being automatically generated.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             var displayName = GetPropertyDisplayName(e.PropertyDescriptor);
