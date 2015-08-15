@@ -20,10 +20,15 @@
         /// </summary>
         /// <param name="error"></param>
         void OnFatalError(string error);
-        
+
+        /// <summary>
+        /// Called when the caller is about to execute an instruction.
+        /// </summary>
+        void OnInstructionExecuting();
+
         /// <summary>
         /// Called when the caller is ready to execute an instruction.
         /// </summary>
-        void OnInstructionReadyToExecute();
+        void OnInstructionExecuted();
     }
 }

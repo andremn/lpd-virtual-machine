@@ -34,7 +34,7 @@ namespace LPD.VirtualMachine.Engine
         /// <summary>
         /// Raised when the stack changes.
         /// </summary>
-        public event EventHandler Changed;
+        public event EventHandler<StackChangedEventArgs> Changed;
 
         /// <summary>
         /// Gets the current position of the stack.
@@ -60,16 +60,21 @@ namespace LPD.VirtualMachine.Engine
         public void Store(int item)
         {
             _array[_top] = item;
+            NotifyStackChanged(StackChangedReason.Pushed);
         }
 
         /// <summary>
         /// Sets the stack to the specified position.
         /// </summary>
         /// <param name="position">The position to set the top of the stack.</param>
-        public void Seek(int position)
+        /// <returns>The position before seeking.</returns>
+        public int Seek(int position)
         {
+            int oldValue = _top;
+
             ThrownOnIndexOutOfRange(position);
             _top = position;
+            return oldValue;
         }
 
         /// <summary>
@@ -96,6 +101,7 @@ namespace LPD.VirtualMachine.Engine
                 throw new InvalidOperationException("The top of the stack is already at the lowest position.");
             }
 
+            NotifyStackChanged(StackChangedReason.Popped);
             _top--;
         }
 
@@ -118,6 +124,18 @@ namespace LPD.VirtualMachine.Engine
             if (position < -1 || position > _size)
             {
                 throw new IndexOutOfRangeException(nameof(position));
+            }
+        }
+
+        /// <summary>
+        /// Notifies this stack has changed.
+        /// </summary>
+        /// <param name="reason">Why the stack changed.</param>
+        private void NotifyStackChanged(StackChangedReason reason)
+        {
+            if (Changed != null)
+            {
+                Changed(this, new StackChangedEventArgs(reason));
             }
         }
     }
