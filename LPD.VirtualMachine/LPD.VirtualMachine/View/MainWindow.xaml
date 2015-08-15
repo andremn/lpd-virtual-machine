@@ -8,7 +8,7 @@
                       mc:Ignorable="d"
                       GlowBrush="{DynamicResource AccentColorBrush}"
                       Title="Máquina Virtual - LPD" Width="700"
-                      MinWidth="700" MinHeight="600">
+                      MinWidth="700" MinHeight="600" Icon="/LPD.VirtualMachine;component/Icons/play-pressed.ico">
 
     <Window.Resources>
         <Storyboard x:Key="DragBeginAnimation">
