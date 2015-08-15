@@ -6,10 +6,12 @@
         xmlns:local="clr-namespace:LPD.VirtualMachine.View"
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:Dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
         GlowBrush="{DynamicResource AccentColorBrush}"                      
         Title="Executando - " Height="600" Width="800"
-        MinHeight="600" MinWidth="800">
-    
+        MinHeight="600" MinWidth="800"
+        KeyDown="OnKeyDown">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.75*"/>
@@ -22,6 +24,7 @@
 
         <GroupBox Header="Instruções" Grid.Column="0">
             <DataGrid x:Name="InstructionsDataGrid"
+                      AutoGeneratingColumn="OnAutoGeneratingColumn"
                       AutoGenerateColumns="True"
                       ItemsSource="{Binding}"
                       ColumnWidth="*"/>
@@ -48,9 +51,11 @@
         </GroupBox>
         <GroupBox Grid.Row="1" Grid.Column="1" Header="Execução">
             <StackPanel>
-                <Button Style="{StaticResource CustomButtonStyle}"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top">
+                <Button x:Name="ExecuteToEndButton"
+                        Click="OnExecuteToEndButtonClick"
+                        Style="{StaticResource CustomButtonStyle}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="../Icons/Start.png"
                        Stretch="UniformToFill"

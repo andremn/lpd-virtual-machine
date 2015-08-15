@@ -38,6 +38,9 @@
   <PropertyGroup>
     <StartupObject>LPD.VirtualMachine.App</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MahApps.Metro, Version=1.1.2.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\MahApps.Metro.dll</HintPath>
@@ -91,6 +94,7 @@
     <Compile Include="Engine\Instructions\CALLInstruction.cs" />
     <Compile Include="Engine\Instructions\JMPFInstruction.cs" />
     <Compile Include="Engine\Instructions\JMPInstruction.cs" />
+    <Compile Include="Engine\Instructions\LDVInstruction.cs" />
     <Compile Include="Engine\Instructions\MULTInstruction.cs" />
     <Compile Include="Engine\Instructions\NEGInstruction.cs" />
     <Compile Include="Engine\Instructions\ORInstruction.cs" />
@@ -114,6 +118,8 @@
     <Compile Include="Engine\IProgramExecutor.cs" />
     <Compile Include="Engine\ProgramCounter.cs" />
     <Compile Include="Engine\Stack.cs" />
+    <Compile Include="Engine\StackChangedEventArgs.cs" />
+    <Compile Include="Engine\StackChangedReason.cs" />
     <Compile Include="Helpers\BytesConverter.cs" />
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="ViewModel\InstructionViewModel.cs" />
@@ -145,6 +151,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

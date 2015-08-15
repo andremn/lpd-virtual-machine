@@ -23,7 +23,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
             stack.Down();
             second = stack.Load();
 
-            if (first != 1 || first != 0 || second != 1 || second != 0)
+            if ((first != 1 && first != 0) || (second != 1 && second != 0))
             {
                 throw new InvalidInstructionException("");
             }

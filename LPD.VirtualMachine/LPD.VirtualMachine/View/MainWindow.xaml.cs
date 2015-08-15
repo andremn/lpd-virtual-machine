@@ -2,6 +2,7 @@
 using LPD.VirtualMachine.Engine.HAL;
 using LPD.VirtualMachine.Properties;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,7 +19,6 @@ namespace LPD.VirtualMachine.View
         private const string OpenDialogDefaultFilter = "Arquivo de assembly|*.asmd|Todos os arquivos|*.*";
 
         private string _selectedFilePath;
-        private Window _executionWindow;
         private bool _isStartButtonVisible = false;
 
         /// <summary>
@@ -47,6 +47,9 @@ namespace LPD.VirtualMachine.View
             sb.Begin();
         }
 
+        /// <summary>
+        /// Stops the anitmation for the StartButton control.
+        /// </summary>
         private void StopDragEnterAnimation()
         {
             Storyboard sb = FindResource("DragEndAnimation") as Storyboard;
@@ -80,23 +83,6 @@ namespace LPD.VirtualMachine.View
             }
 
             _selectedFilePath = openFileDialog.FileName;
-            PrepareExecution();
-        }
-
-        private void PrepareExecution()
-        {
-            int virtualMachineSize = (int)Settings.Default[App.SystemMemorySettingKey];
-            InstructionSet instructionsCollection = InstructionSet.CreateFromFile(_selectedFilePath);
-            Memory memory = Memory.CreateMemory(virtualMachineSize, instructionsCollection);
-            ExecutionContext context = new ExecutionContext()
-            {
-                ProgramCounter = new ProgramCounter(CPU.InitialProgramCounter),
-                Memory = memory
-            };
-            
-            _executionWindow = new ExecutionWindow(_selectedFilePath, context);
-            context.InputProvider = _executionWindow as IInputProvider;
-            context.OutputProvider = _executionWindow as IOutputProvider;
 
             if (!_isStartButtonVisible)
             {
@@ -105,16 +91,56 @@ namespace LPD.VirtualMachine.View
         }
 
         /// <summary>
+        /// Prepares the virtual machine to start the execution.
+        /// </summary>
+        /// <returns>The window that will show the execution information.</returns>
+        private ExecutionWindow PrepareExecution()
+        {
+            int virtualMachineSize = (int)Settings.Default[App.SystemMemorySettingKey];
+            InstructionSet instructionsCollection = InstructionSet.CreateFromFile(_selectedFilePath);
+            Memory memory = Memory.CreateMemory(virtualMachineSize, instructionsCollection);
+            ExecutionWindow executionWindow;
+            ExecutionContext currentContext = new ExecutionContext()
+            {
+                ProgramCounter = new ProgramCounter(CPU.InitialProgramCounter),
+                Memory = memory
+            };
+
+            executionWindow = new ExecutionWindow(_selectedFilePath, currentContext);
+            currentContext.InputProvider = executionWindow as IInputProvider;
+            currentContext.OutputProvider = executionWindow as IOutputProvider;
+            return executionWindow;
+        }
+
+        /// <summary>
         /// Occurs when the button "Iniciar" is clicked.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The info of the event.</param>
-        private void OnStartButtonClick(object sender, RoutedEventArgs e)
+        private async void OnStartButtonClick(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult messageBoxResult = MessageBox.Show("Rodar em modo debug?", "Modo de execução", MessageBoxButton.YesNo);
-            IProgramExecutor executor = _executionWindow as IProgramExecutor;
+            ExecutionWindow executionWindow = PrepareExecution();
+            MetroDialogSettings dialogSettings = new MetroDialogSettings()
+            {
+                AnimateShow = true,
+                AnimateHide = true,
+                FirstAuxiliaryButtonText = "Cancelar",
+                AffirmativeButtonText = "Normal",
+                NegativeButtonText = "Debug"
+            };
+            MessageDialogResult result = await this.ShowMessageAsync("Modo de execução", 
+                "Gostaria de rodar o programa em qual modo?",
+                MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary,
+                dialogSettings);
 
-            if (messageBoxResult == MessageBoxResult.Yes)
+            if (result == MessageDialogResult.FirstAuxiliary)
+            {
+                return;
+            }
+
+            IProgramExecutor executor = executionWindow as IProgramExecutor;
+
+            if (result == MessageDialogResult.Negative)
             {
                 executor.Context.Mode = ExecutionMode.Debug;
             }
@@ -123,7 +149,7 @@ namespace LPD.VirtualMachine.View
                 executor.Context.Mode = ExecutionMode.Normal;
             }
 
-            _executionWindow.ShowDialog();
+            executionWindow.ShowDialog();
         }
 
         /// <summary>
@@ -136,6 +162,11 @@ namespace LPD.VirtualMachine.View
             new SettingsWindow().ShowDialog();
         }
 
+        /// <summary>
+        /// Occurs when the item being dragged is drop over the LoadButton button.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The data of the event.</param>
         private void OnLoadButtonDrop(object sender, DragEventArgs e)
         {
             StopDragEnterAnimation();
@@ -149,6 +180,11 @@ namespace LPD.VirtualMachine.View
             }
         }
 
+        /// <summary>
+        /// Occurs when an item is dragged over the LoadButton.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The data of the event.</param>
         private void OnLoadButtonDragEnter(object sender, DragEventArgs e)
         {
             if (e.OriginalSource.GetType() != typeof(Image))
@@ -159,6 +195,11 @@ namespace LPD.VirtualMachine.View
             (FindResource("DragBeginAnimation") as Storyboard).Begin(this, true);
         }
 
+        /// <summary>
+        /// Occurs when an item is no more being dragged over the LoadButton.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The data of the event.</param>
         private void OnLoadButtonDragLeave(object sender, DragEventArgs e)
         {
             if (e.OriginalSource.GetType() != typeof(Image))

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using static LPD.VirtualMachine.Engine.InstructionSet;
 
@@ -83,12 +82,7 @@ namespace LPD.VirtualMachine.Engine.HAL
             //Executes the instructions until a 'HLT' instruction is found.
             while (true)
             {
-                //Are we in debug mode?
-                if (context.Mode == ExecutionMode.Debug)
-                {
-                    //Let's wait...
-                    _executor.OnInstructionReadyToExecute();
-                }
+                _executor.OnInstructionExecuting();
 
                 //The first thing we need is to get the program counter from the current context.
                 int pc = context.ProgramCounter.Current;
@@ -136,6 +130,7 @@ namespace LPD.VirtualMachine.Engine.HAL
                 IInstruction currentInstruction = (IInstruction)Activator.CreateInstance(currentInstructionType);
                 //The parameters are only integers.
                 int[] parameters = currentInstructionRaw.Skip(1).Select(parameter => int.Parse(parameter)).ToArray();
+                
                 //Now the shit gets real...
                 //The instruction will be executed... fingers crossed!
                 try
@@ -144,18 +139,15 @@ namespace LPD.VirtualMachine.Engine.HAL
                 }
                 catch (InvalidInstructionException e)
                 {
-                    _executor.OnFatalError(e);
+                    _executor.OnFatalError(e.Message);
                     return;
                 }
+                
+                _executor.OnInstructionExecuted();
             }
 
-            //Ok... we're done. Is someone waiting for us to complete?
-            if (Finished != null)
-            {
-                //Yeah, someone care about us! 
-                //Let's just tell the guys we're over
-                _executor.OnFinished();
-            }
+            //Let's just tell the guys we're over
+            _executor.OnFinished();
         }
 
         /// <summary>
