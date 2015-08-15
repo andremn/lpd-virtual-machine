@@ -7,13 +7,14 @@ namespace LPD.VirtualMachine.Engine.Instructions
     {
         protected override void SpecificExecute(ExecutionContext context, int[] parameters)
         {
-            int k;
-            int address = parameters[0];
+            int baseIndex = parameters[0];
+            int slots = parameters[1];
             Stack stack = context.Memory.StackRegion;
 
-            for (k = address - 1; k > 0; k--)
+            for (int i = 0; i < slots; i++)
             {
-                stack.Store(address + k); stack.Down(); 
+                stack.StoreAt(baseIndex + i, stack.Load());
+                stack.Down();
             }
         }
     }
