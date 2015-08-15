@@ -1,5 +1,4 @@
-﻿using LPD.VirtualMachine.Helpers;
-using LPD.VirtualMachine.Properties;
+﻿using LPD.VirtualMachine.Properties;
 using MahApps.Metro.Controls;
 using System.Windows;
 using System.Windows.Controls;

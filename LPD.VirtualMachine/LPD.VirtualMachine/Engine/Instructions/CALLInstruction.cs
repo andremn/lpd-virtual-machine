@@ -14,7 +14,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
         /// <param name="context">The execution context.</param>
         /// <param name="parameters">The address to jump.</param>
         /// <returns>The address to jump.</returns>
-        public override int SpecificExecute(ExecutionContext context, int[] parameters)
+        protected override int SpecificExecute(ExecutionContext context, int[] parameters)
         {
             int address = parameters[0];
             Stack stack = context.Memory.StackRegion;

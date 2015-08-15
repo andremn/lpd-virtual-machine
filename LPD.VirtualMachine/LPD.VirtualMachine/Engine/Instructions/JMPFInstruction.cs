@@ -14,7 +14,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
         /// <param name="context">The execution context.</param>
         /// <param name="parameters">The address to jump.</param>
         /// <returns>The address to jump if the stack's top position is zero or the next instruction address.</returns>
-        public override int SpecificExecute(ExecutionContext context, int[] parameters)
+        protected override int SpecificExecute(ExecutionContext context, int[] parameters)
         {
             int address = parameters[0];
             int value;

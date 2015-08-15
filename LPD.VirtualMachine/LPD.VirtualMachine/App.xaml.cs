@@ -1,5 +1,4 @@
-﻿using LPD.VirtualMachine.Helpers;
-using LPD.VirtualMachine.Properties;
+﻿using LPD.VirtualMachine.Properties;
 using System.Windows;
 
 namespace LPD.VirtualMachine
@@ -28,7 +27,7 @@ namespace LPD.VirtualMachine
 
             if (savedMemory == 0)
             {
-                Settings.Default[SystemMemorySettingKey] = BytesConverter.ConvertKiloBytesToBytes((int)DefaultMemory);
+                Settings.Default[SystemMemorySettingKey] = (int)DefaultMemory;
                 Settings.Default.Save();
             }
         }

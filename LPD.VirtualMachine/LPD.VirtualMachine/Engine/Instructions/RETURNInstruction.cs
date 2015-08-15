@@ -5,7 +5,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
     [Instruction(RETURN)]
     class RETURNInstruction : JumpableInstruction
     {
-        public override int SpecificExecute(ExecutionContext context, int[] parameters)
+        protected override int SpecificExecute(ExecutionContext context, int[] parameters)
         {
             Stack stack = context.Memory.StackRegion;
             int first = stack.Load();

@@ -78,72 +78,82 @@ namespace LPD.VirtualMachine.Engine.HAL
         {
             ExecutionContext context = _executor.Context;
             string[] instructions = context.Memory.InstructionsRegion;
-            
-            //Executes the instructions until a 'HLT' instruction is found.
-            while (true)
+
+
+
+            try
             {
-                _executor.OnInstructionExecuting();
-
-                //The first thing we need is to get the program counter from the current context.
-                int pc = context.ProgramCounter.Current;
-
-                //Oh noooo!! Some instruction just set the PC to a invalid position.
-                //We cannot go on...
-                if (pc > instructions.Length)
+                //Executes the instructions until a 'HLT' instruction is found.
+                while (true)
                 {
-                    throw new InvalidProgramCounterException($"Program counter at position {pc} is out greater than instructions memory region.");
-                }
+                    _executor.OnInstructionExecuting();
 
-                //Gets the next instruction from the memory, splitted in instruction name and instruction parameter, if any.
-                //Ex: currentInstructionRaw[0] = LDC; currentInstructionRaw[1] = 5 or
-                //currentInstructionRaw[0] = ADD; currentInstructionRaw[1] does not exist since the ADD instruction doesn't take parameters
-                string[] currentInstructionRaw = instructions[pc].Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                //The instruction name is in the first position of the splitted array.
-                string currentInstructionName = currentInstructionRaw[0].ToUpper();
+                    //The first thing we need is to get the program counter from the current context.
+                    int pc = context.ProgramCounter.Current;
 
-                //If an HLT instruction is read from memory...
-                if (currentInstructionName == HLT)
-                {
-                    //... stops everything!
-                    break;
-                }
+                    //Oh noooo!! Some instruction just set the PC to a invalid position.
+                    //We cannot go on...
+                    if (pc > instructions.Length)
+                    {
+                        throw new InvalidProgramCounterException($"O PC na posição {pc} é maior do que a instrução na região de memória.");
+                    }
 
-                //If the instruction name or parameter is NULL... 
-                if (currentInstructionName == NULL || (currentInstructionRaw.Length > 1 && currentInstructionRaw[1] == NULL))
-                {
-                    //... means we need do nothing or the instruction name is actually an address we may jump in the future.
-                    //The only thing we need to do is increment the program counter.
-                    context.ProgramCounter.Increment();
-                    continue;
-                }
-                
-                Type currentInstructionType;
+                    //Gets the next instruction from the memory, splitted in instruction name and instruction parameter, if any.
+                    //Ex: currentInstructionRaw[0] = LDC; currentInstructionRaw[1] = 5 or
+                    //currentInstructionRaw[0] = ADD; currentInstructionRaw[1] does not exist since the ADD instruction doesn't take parameters
+                    string[] currentInstructionRaw = instructions[pc].Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                    //The instruction name is in the first position of the splitted array.
+                    string currentInstructionName = currentInstructionRaw[0].ToUpper();
 
-                //The read instruction exists?
-                if (!_knownInstructionTypes.TryGetValue(currentInstructionName, out currentInstructionType))
-                {
-                    //No!! The instruction is not valid! Time to throw some exception hehehe...
-                    throw new InvalidInstructionException($"The instruction {currentInstructionName} is not valid.");
+                    //If an HLT instruction is read from memory...
+                    if (currentInstructionName == HLT)
+                    {
+                        //... stops everything!
+                        break;
+                    }
+
+                    //If the instruction name or parameter is NULL... 
+                    if (currentInstructionName == NULL || (currentInstructionRaw.Length > 1 && currentInstructionRaw[1] == NULL))
+                    {
+                        //... means we need do nothing or the instruction name is actually an address we may jump in the future.
+                        //The only thing we need to do is increment the program counter.
+                        context.ProgramCounter.Increment();
+                        continue;
+                    }
+
+                    Type currentInstructionType;
+
+                    //The read instruction exists?
+                    if (!_knownInstructionTypes.TryGetValue(currentInstructionName, out currentInstructionType))
+                    {
+                        //No!! The instruction is not valid! Time to throw some exception hehehe...
+                        throw new InvalidInstructionException($"A instrução {currentInstructionName} não é valida.");
+                    }
+
+                    //Gets the instruction. This time is for real!
+                    IInstruction currentInstruction = (IInstruction)Activator.CreateInstance(currentInstructionType);
+                    //The parameters are only integers.
+                    int[] parameters = currentInstructionRaw.Skip(1).Select(parameter => int.Parse(parameter)).ToArray();
+
+                    //Now the shit gets real...
+                    //The instruction will be executed... fingers crossed!
+                    try
+                    {
+                        currentInstruction.Execute(context, currentInstructionRaw.Length > 1 ? parameters : null);
+                    }
+                    catch (InvalidInstructionException e)
+                    {
+                        _executor.OnFatalError(e.Message);
+                        return;
+                    }
+
+                    _executor.OnInstructionExecuted();
                 }
-                
-                //Gets the instruction. This time is for real!
-                IInstruction currentInstruction = (IInstruction)Activator.CreateInstance(currentInstructionType);
-                //The parameters are only integers.
-                int[] parameters = currentInstructionRaw.Skip(1).Select(parameter => int.Parse(parameter)).ToArray();
-                
-                //Now the shit gets real...
-                //The instruction will be executed... fingers crossed!
-                try
-                {
-                    currentInstruction.Execute(context, currentInstructionRaw.Length > 1 ? parameters : null);
-                }
-                catch (InvalidInstructionException e)
-                {
-                    _executor.OnFatalError(e.Message);
-                    return;
-                }
-                
-                _executor.OnInstructionExecuted();
+            }
+            catch (InvalidInstructionException e)
+            {
+                _executor.OnFatalError(e.Message);
+                return;
             }
 
             //Let's just tell the guys we're over

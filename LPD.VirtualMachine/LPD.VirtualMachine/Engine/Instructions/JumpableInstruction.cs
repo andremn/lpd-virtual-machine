@@ -31,6 +31,6 @@ namespace LPD.VirtualMachine.Engine.Instructions
         /// Use null if the instruction has no parameters.</param>
         /// <returns>The position to set the program counter. 
         /// In other words, the position to jump.</returns>
-        public abstract int SpecificExecute(ExecutionContext context, int[] parameters);
+        protected abstract int SpecificExecute(ExecutionContext context, int[] parameters);
     }
 }

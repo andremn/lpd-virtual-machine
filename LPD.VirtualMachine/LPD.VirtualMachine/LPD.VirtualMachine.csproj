@@ -120,7 +120,6 @@
     <Compile Include="Engine\Stack.cs" />
     <Compile Include="Engine\StackChangedEventArgs.cs" />
     <Compile Include="Engine\StackChangedReason.cs" />
-    <Compile Include="Helpers\BytesConverter.cs" />
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="ViewModel\InstructionViewModel.cs" />
     <Compile Include="View\ExecutionWindow.xaml.cs">

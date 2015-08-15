@@ -25,7 +25,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
 
             if ((first != 1 && first != 0) || (second != 1 && second != 0))
             {
-                throw new InvalidInstructionException("");
+                throw new InvalidInstructionException("Operação OR precisa ser com 0 ou 1");
             }
 
             if (first == 1 && second == 1)
