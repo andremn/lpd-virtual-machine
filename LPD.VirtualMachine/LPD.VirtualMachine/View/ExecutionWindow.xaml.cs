@@ -27,6 +27,7 @@ namespace LPD.VirtualMachine.View
         private const string FinishedMessageBoxTitle = "Fim da execução";
         private const string FinishedMessageBoxContent = "O programa chegou ao fim da execução sem erros.";
         private const string InputEnterValueText = "Entre com um valor: ";
+        private const string BackspaceString = "\b";
         private const int DefaultMessageBoxDelay = 500;
 
         private StringBuilder _inputBuffer;
@@ -305,7 +306,15 @@ namespace LPD.VirtualMachine.View
         /// <param name="e">The data of the event.</param>
         private void OnTextComposition(object sender, TextCompositionEventArgs e)
         {
-            //Gets what was inputed.
+            string text = e.Text;
+
+            if (text == BackspaceString)
+            {
+                _inputBuffer.Remove(_inputBuffer.Length - 1, 1);
+                UpdateInputLineOnOutput();
+                return;
+            }
+
             _inputBuffer.Append(e.Text);
             Dispatcher.Invoke(UpdateInputLineOnOutput);
         }
@@ -385,11 +394,6 @@ namespace LPD.VirtualMachine.View
                 NextInstructionButton.IsEnabled = true;
                 TextCompositionManager.RemoveTextInputHandler(this, OnTextComposition);
                 _inputSynchronizer.Set();
-            }
-            else if (e.Key == Key.Back)
-            {
-                _inputBuffer.Remove(_inputBuffer.Length - 1, 1);
-                UpdateInputLineOnOutput();
             }
         }
     }
