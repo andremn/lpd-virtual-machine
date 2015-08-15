@@ -132,7 +132,7 @@ namespace LPD.VirtualMachine.Engine.HAL
 
                     //Gets the instruction. This time is for real!
                     IInstruction currentInstruction = (IInstruction)Activator.CreateInstance(currentInstructionType);
-                    //The parameters are only integers.                    
+                    //The parameters are only integers.
                     string rawParameters = currentInstructionRaw.Length > 1 ? currentInstructionRaw.Skip(1).SingleOrDefault() : string.Empty;
                     int[] parameters = null;
 
@@ -143,7 +143,6 @@ namespace LPD.VirtualMachine.Engine.HAL
                         //have arguments on the 'k,n' form.
                         parameters = rawParameters.Split(',').Select(rawParameter => int.Parse(rawParameter)).ToArray();
                     }
-
 
                     //Now the shit gets real...
                     //The instruction will be executed... fingers crossed!
@@ -163,7 +162,6 @@ namespace LPD.VirtualMachine.Engine.HAL
             catch (InvalidInstructionException e)
             {
                 _executor.OnFatalError(e.Message);
-
                 return;
             }
 

@@ -54,6 +54,27 @@ namespace LPD.VirtualMachine.Engine
         }
 
         /// <summary>
+        /// Gets an item from the specified position.
+        /// </summary>
+        /// <param name="position">The position to load the item from.</param>
+        /// <returns>The item stored at the current position.</returns>
+        public int LoadFrom(int position)
+        {
+            return _array[position];
+        }
+
+        /// <summary>
+        /// Stores an item on the specified position.
+        /// </summary>
+        /// <param name="position">The position to store the value.</param>
+        /// <param name="item">The item to store at the current position.</param>
+        public void StoreAt(int position, int item)
+        {
+            _array[position] = item;
+            NotifyStackChanged(StackChangedReason.Pushed);
+        }
+
+        /// <summary>
         /// Stores an item on the current position.
         /// </summary>
         /// <param name="item">The item to store at the current position.</param>
