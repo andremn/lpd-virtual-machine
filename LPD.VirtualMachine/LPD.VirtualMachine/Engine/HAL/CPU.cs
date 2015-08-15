@@ -132,14 +132,24 @@ namespace LPD.VirtualMachine.Engine.HAL
 
                     //Gets the instruction. This time is for real!
                     IInstruction currentInstruction = (IInstruction)Activator.CreateInstance(currentInstructionType);
-                    //The parameters are only integers.
-                    int[] parameters = currentInstructionRaw.Skip(1).Select(parameter => int.Parse(parameter)).ToArray();
+                    //The parameters are only integers.                    
+                    string rawParameters = currentInstructionRaw.Length > 1 ? currentInstructionRaw.Skip(1).SingleOrDefault() : string.Empty;
+                    int[] parameters = null;
+
+                    //Does the instruction have any parameters?
+                    if (!string.IsNullOrEmpty(rawParameters))
+                    {
+                        //Yes, it does. Let's try to split the arguments by comma because the ALLOC and DALLOC instructions
+                        //have arguments on the 'k,n' form.
+                        parameters = rawParameters.Split(',').Select(rawParameter => int.Parse(rawParameter)).ToArray();
+                    }
+
 
                     //Now the shit gets real...
                     //The instruction will be executed... fingers crossed!
                     try
                     {
-                        currentInstruction.Execute(context, currentInstructionRaw.Length > 1 ? parameters : null);
+                        currentInstruction.Execute(context, parameters);
                     }
                     catch (InvalidInstructionException e)
                     {
@@ -153,6 +163,7 @@ namespace LPD.VirtualMachine.Engine.HAL
             catch (InvalidInstructionException e)
             {
                 _executor.OnFatalError(e.Message);
+
                 return;
             }
 
