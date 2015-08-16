@@ -385,6 +385,7 @@ namespace LPD.VirtualMachine.View
             Context.Mode = ExecutionMode.Normal;
             DoFinished();
             _executionSynchronizer.Set();
+            //TODO - re executar e mostrar a mensagem de execução igual a quando roda pela primeira vez.
         }
 
         private void OnKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
