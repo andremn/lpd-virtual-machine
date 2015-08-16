@@ -10,7 +10,8 @@
         GlowBrush="{DynamicResource AccentColorBrush}"                      
         Title="Executando - " Height="600" Width="800"
         MinHeight="600" MinWidth="800"
-        KeyDown="OnKeyDown">
+        MaxHeight="600" MaxWidth="800"
+        KeyDown="OnKeyDown" Icon="/LPD.VirtualMachine;component/Icons/play-pressed.ico">
 
     <Grid>
         <Grid.ColumnDefinitions>
