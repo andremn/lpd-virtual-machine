@@ -33,7 +33,7 @@ namespace LPD.VirtualMachine.View
         private StringBuilder _inputBuffer;
         private EventWaitHandle _inputSynchronizer;
         private EventWaitHandle _executionSynchronizer;
-        private bool _delayMessageOnFinished = false;
+        private bool _hasStartedExecution = false;
 
         /// <summary>
         /// Gets the current execution context.
@@ -65,6 +65,12 @@ namespace LPD.VirtualMachine.View
             if (Context.Mode == ExecutionMode.Debug)
             {
                 _executionSynchronizer.WaitOne();
+                return;
+            }
+
+            if (Dispatcher.Invoke<bool>(CellContainsBreakpoint))
+            {
+                Context.Mode = ExecutionMode.Debug;
             }
         }
 
@@ -132,21 +138,24 @@ namespace LPD.VirtualMachine.View
             Dispatcher.Invoke(() => AppendLineToOutput(value.ToString()));
         }
 
+        private bool CellContainsBreakpoint()
+        {
+            InstructionViewModel model = InstructionsDataGrid.SelectedItem as InstructionViewModel;
+
+            if (model == null)
+            {
+                return false;
+            }
+
+            return model.HasBreakpoint;
+        }
+
         /// <summary>
         /// Informs the user the execution finished.
         /// </summary>
         /// <returns><see cref="Task"/></returns>
         private async Task ShowFinishedMessageAsync()
         {
-            //Will we delay the message box showing?
-            //This is done cause we don't want this window to open with the messagebox already on the screen
-            //when the execution is done without debbuging.
-            //We wait a moment till the window is completely shown.
-            if (!_delayMessageOnFinished)
-            {
-                await Task.Delay(DefaultMessageBoxDelay);
-            }
-
             //Shows the messagebox.
             await this.ShowMessageAsync(FinishedMessageBoxTitle, FinishedMessageBoxContent);
         }
@@ -174,8 +183,10 @@ namespace LPD.VirtualMachine.View
         /// </summary>
         private void DoFinished()
         {
+            _hasStartedExecution = false;
+
             int index = InstructionsDataGrid.Items.Count - 1;
-            
+
             InstructionsDataGrid.SelectedIndex = index;
             InstructionsDataGrid.ScrollIntoView(InstructionsDataGrid.Items[index]);
             ExecuteToEndButton.IsEnabled = true;
@@ -193,20 +204,21 @@ namespace LPD.VirtualMachine.View
         /// <summary>
         /// Starts the program execution.
         /// </summary>
-        private void Start()
+        private void Start(ExecutionMode mode)
         {
+            //Clears all the data we used just to make sure we don't get data from previous exeution.
+            Context.Memory.StackRegion.Clear();
+            Context.ProgramCounter.Jump(CPU.InitialProgramCounter);
+            //Collect some garbage...
+            GC.Collect();
+            //Clears the output window
+            OutputListView.Items.Clear();
             _executionSynchronizer = new EventWaitHandle(false, EventResetMode.AutoReset);
             InstructionsDataGrid.SelectedIndex = 0;
-
-            if (Context.Mode == ExecutionMode.Normal)
-            {
-                NextInstructionButton.IsEnabled = ExecuteToEndButton.IsEnabled = false;
-            }
-            else
-            {
-                _delayMessageOnFinished = true;
-            }
-
+            Context.Mode = mode;
+            //We starting the execution...
+            _hasStartedExecution = true;
+             //... now!!
             CPU.Instance.BeginExecution(this);
         }
 
@@ -262,6 +274,9 @@ namespace LPD.VirtualMachine.View
         {
             switch (reason)
             {
+                case StackChangedReason.Cleared:
+                    StackListView.Items.Clear();
+                    break;
                 //Something was removed from the stack.
                 case StackChangedReason.Popped:
                     StackListView.Items.RemoveAt(StackListView.Items.Count - 1);
@@ -295,6 +310,11 @@ namespace LPD.VirtualMachine.View
             if (!string.IsNullOrEmpty(displayName))
             {
                 e.Column.Header = displayName;
+
+                if (displayName != "Breakpoint")
+                {
+                    e.Column.IsReadOnly = true;
+                }
             }
 
         }
@@ -326,7 +346,7 @@ namespace LPD.VirtualMachine.View
         /// <param name="e">The event's info.</param>
         private void OnWindowLoaded(object sender, RoutedEventArgs e)
         {
-            Start();
+            //Start(ExecutionMode.Debug);
         }
 
         /// <summary>
@@ -371,7 +391,13 @@ namespace LPD.VirtualMachine.View
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The data of the event.</param>
         private void OnNextInstructionButtonClick(object sender, RoutedEventArgs e)
-        {            
+        {
+            if (!_hasStartedExecution)
+            {
+                Start(ExecutionMode.Debug);
+                return;
+            }
+
             _executionSynchronizer.Set();
         }
 
@@ -382,12 +408,10 @@ namespace LPD.VirtualMachine.View
         /// <param name="e">The data of the event.</param>
         private void OnExecuteToEndButtonClick(object sender, RoutedEventArgs e)
         {
-            Context.Mode = ExecutionMode.Normal;
-            DoFinished();
-            _executionSynchronizer.Set();
+            Start(ExecutionMode.Normal);
         }
 
-        private void OnKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {

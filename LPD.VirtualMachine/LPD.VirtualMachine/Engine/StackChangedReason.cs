@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LPD.VirtualMachine.Engine
+﻿namespace LPD.VirtualMachine.Engine
 {
     /// <summary>
     /// Reasons why the stack has changed.
@@ -12,12 +6,16 @@ namespace LPD.VirtualMachine.Engine
     public enum StackChangedReason
     {
         /// <summary>
+        /// The stack was totally cleared.
+        /// </summary>
+        Cleared,
+        /// <summary>
+        /// An item was removed from the stack.
+        /// </summary>
+        Popped,
+        /// <summary>
         /// An item was added to the stack.
         /// </summary>
-        Pushed,
-        /// <summary>
-        /// 
-        /// </summary>
-        Popped
+        Pushed
     }
 }

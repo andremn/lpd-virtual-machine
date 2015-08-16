@@ -117,37 +117,9 @@ namespace LPD.VirtualMachine.View
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The info of the event.</param>
-        private async void OnStartButtonClick(object sender, RoutedEventArgs e)
+        private void OnStartButtonClick(object sender, RoutedEventArgs e)
         {
             ExecutionWindow executionWindow = PrepareExecution();
-            MetroDialogSettings dialogSettings = new MetroDialogSettings()
-            {
-                AnimateShow = true,
-                AnimateHide = true,
-                FirstAuxiliaryButtonText = "Cancelar",
-                AffirmativeButtonText = "Normal",
-                NegativeButtonText = "Debug"
-            };
-            MessageDialogResult result = await this.ShowMessageAsync("Modo de execução", 
-                "Gostaria de rodar o programa em qual modo?",
-                MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary,
-                dialogSettings);
-
-            if (result == MessageDialogResult.FirstAuxiliary)
-            {
-                return;
-            }
-
-            IProgramExecutor executor = executionWindow as IProgramExecutor;
-
-            if (result == MessageDialogResult.Negative)
-            {
-                executor.Context.Mode = ExecutionMode.Debug;
-            }
-            else
-            {
-                executor.Context.Mode = ExecutionMode.Normal;
-            }
 
             executionWindow.ShowDialog();
         }

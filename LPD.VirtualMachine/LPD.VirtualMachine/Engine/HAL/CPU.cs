@@ -66,7 +66,12 @@ namespace LPD.VirtualMachine.Engine.HAL
             }
 
             _executor = executor;
-            InitializeTypes();
+
+            if (_knownInstructionTypes == null)
+            {
+                InitializeTypes();
+            }
+
             //Run all the processing in another thread, so we do not block the UI.
             Task.Factory.StartNew(Execute);
         }
@@ -78,8 +83,6 @@ namespace LPD.VirtualMachine.Engine.HAL
         {
             ExecutionContext context = _executor.Context;
             string[] instructions = context.Memory.InstructionsRegion;
-
-
 
             try
             {

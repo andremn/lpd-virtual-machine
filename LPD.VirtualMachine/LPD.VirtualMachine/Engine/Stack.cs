@@ -45,6 +45,16 @@ namespace LPD.VirtualMachine.Engine
         }
 
         /// <summary>
+        /// Clears all the contents of the stack.
+        /// </summary>
+        public void Clear()
+        {
+            _array = null;
+            _array = new int[_size];
+            NotifyStackChanged(StackChangedReason.Cleared);
+        }
+
+        /// <summary>
         /// Gets an item from the current position.
         /// </summary>
         /// <returns>The item stored at the current position.</returns>

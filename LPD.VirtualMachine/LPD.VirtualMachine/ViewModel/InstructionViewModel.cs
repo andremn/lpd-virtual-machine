@@ -31,5 +31,11 @@ namespace LPD.VirtualMachine.ViewModel
         /// </summary>
         [DisplayName("Comentário")]
         public string Comment { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the instruction has a breakpoint.
+        /// </summary>
+        [DisplayName("Breakpoint")]
+        public bool HasBreakpoint { get; set; }
     }
 }
