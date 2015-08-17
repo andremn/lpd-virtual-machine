@@ -65,12 +65,14 @@ namespace LPD.VirtualMachine.View
             if (Context.Mode == ExecutionMode.Debug)
             {
                 _executionSynchronizer.WaitOne();
-                return;
             }
-
-            if (Dispatcher.Invoke<bool>(CellContainsBreakpoint))
+            else
             {
-                Context.Mode = ExecutionMode.Debug;
+                if (Dispatcher.Invoke<bool>(CurrentCellContainsBreakpoint))
+                {
+                    Context.Mode = ExecutionMode.Debug;
+                    _executionSynchronizer.WaitOne();
+                }
             }
         }
 
@@ -138,9 +140,9 @@ namespace LPD.VirtualMachine.View
             Dispatcher.Invoke(() => AppendLineToOutput(value.ToString()));
         }
 
-        private bool CellContainsBreakpoint()
+        private bool CurrentCellContainsBreakpoint()
         {
-            InstructionViewModel model = InstructionsDataGrid.SelectedItem as InstructionViewModel;
+            InstructionViewModel model = InstructionsDataGrid.Items[Context.ProgramCounter.Current] as InstructionViewModel;
 
             if (model == null)
             {
@@ -346,7 +348,7 @@ namespace LPD.VirtualMachine.View
         /// <param name="e">The event's info.</param>
         private void OnWindowLoaded(object sender, RoutedEventArgs e)
         {
-            //Start(ExecutionMode.Debug);
+
         }
 
         /// <summary>
@@ -408,7 +410,14 @@ namespace LPD.VirtualMachine.View
         /// <param name="e">The data of the event.</param>
         private void OnExecuteToEndButtonClick(object sender, RoutedEventArgs e)
         {
-            Start(ExecutionMode.Normal);
+            if (!_hasStartedExecution)
+            {
+                Start(ExecutionMode.Normal);
+                return;
+            }
+
+            Context.Mode = ExecutionMode.Normal;
+            _executionSynchronizer.Set();
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)
