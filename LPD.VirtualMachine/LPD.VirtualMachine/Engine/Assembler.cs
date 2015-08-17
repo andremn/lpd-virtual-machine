@@ -23,12 +23,12 @@ namespace LPD.VirtualMachine.Engine
         {
             if (string.IsNullOrEmpty(inputFilePath))
             {
-                throw new ArgumentException($"The parameter {nameof(inputFilePath)} is null or empty.");
+                throw new ArgumentException($"O parametro {nameof(inputFilePath)} é nulo ou vazio.");
             }
 
             if (string.IsNullOrEmpty(outputFilePath))
             {
-                throw new ArgumentException($"The parameter {nameof(outputFilePath)} is null or empty.");
+                throw new ArgumentException($"O parametro {nameof(outputFilePath)} é nulo ou vazio.");
             }
             
             using (StreamReader reader = new StreamReader(File.OpenRead(inputFilePath)))

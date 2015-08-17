@@ -15,6 +15,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
         /// <param name="parameters">The index of the value to be stored.</param>
         protected override void SpecificExecute(ExecutionContext context, int[] parameters)
         {
+            /*
             int index = parameters[0];
             Stack stack = context.Memory.StackRegion;
             int oldValue = stack.Seek(index);
@@ -23,6 +24,13 @@ namespace LPD.VirtualMachine.Engine.Instructions
             stack.Seek(oldValue);
             stack.Up();
             stack.Store(value);
+            */
+            int value = parameters[0];
+            Stack stack = context.Memory.StackRegion;
+            stack.Up();
+            stack.Store(value);
+            
+            
         }
     }
 }

@@ -19,8 +19,8 @@ namespace LPD.VirtualMachine.Engine.Instructions
             int item;
 
             item = stack.Load();
-            stack.Down();
             context.OutputProvider.Print(item);
+            stack.Down();
         }
     }
 }

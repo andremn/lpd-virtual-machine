@@ -60,6 +60,12 @@ namespace LPD.VirtualMachine.Engine
         /// <returns>The item stored at the current position.</returns>
         public int Load()
         {
+            //TODO - tratar o erro e não deixar o programa quebrar...
+            //-1 is the lowest stack position.
+            if (_top == -1)
+            {                
+                throw new ExecutionException("The top of the stack is already at the lowest position.");
+            }
             return _array[_top];
         }
 
