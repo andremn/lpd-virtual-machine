@@ -1,6 +1,6 @@
 # lpd-virtual-machine
 
-#### AVISO: A máquina virtual ainda está em fase de desenvolvimento (beta). Nem todas as instruções foram implementadas e o motor de execução ainda não foi totalmente testado.
+#### AVISO: A máquina virtual ainda está em fase de desenvolvimento (beta).
 
 Máquina virtual simples para a linguagem assembly gerada pelo compilador da linguagem LPD (Linguagem de Programação Didática).
 
