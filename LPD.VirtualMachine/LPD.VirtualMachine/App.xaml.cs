@@ -33,7 +33,15 @@ namespace LPD.VirtualMachine
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            _desktopFilePath = e.Args[0];
+            //TODO - corrigir apropriadamente ?? 
+            try
+            {
+                _desktopFilePath = e.Args[0];
+            }
+            catch (System.Exception)
+            {
+                return;
+            }
             base.OnStartup(e);
         }
     }
