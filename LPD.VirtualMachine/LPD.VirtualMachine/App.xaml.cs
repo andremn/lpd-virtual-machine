@@ -13,23 +13,28 @@ namespace LPD.VirtualMachine
         /// </summary>
         public const string SystemMemorySettingKey = "SystemMemory";
 
+        private static string _desktopFilePath = null;
+
         /// <summary>
-        /// The default virtual machine memory.
+        /// Gets the file's path passed from the desktop, if any.
         /// </summary>
-        private const uint DefaultMemory = 16;
+        public static string DesktopFilePath
+        {
+            get { return _desktopFilePath; }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="App"/> class.
         /// </summary>
         public App()
         {
-            int savedMemory = (int)Settings.Default[SystemMemorySettingKey];
+            
+        }
 
-            if (savedMemory == 0)
-            {
-                Settings.Default[SystemMemorySettingKey] = (int)DefaultMemory;
-                Settings.Default.Save();
-            }
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            _desktopFilePath = e.Args[0];
+            base.OnStartup(e);
         }
     }
 }

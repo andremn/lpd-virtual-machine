@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System;
 
 namespace LPD.VirtualMachine.View
 {
@@ -27,6 +28,7 @@ namespace LPD.VirtualMachine.View
         public MainWindow()
         {
             InitializeComponent();
+            Loaded += OnLoaded;
         }
 
         /// <summary>
@@ -61,6 +63,15 @@ namespace LPD.VirtualMachine.View
             };
             (FindResource("DragBeginAnimation") as Storyboard).Stop(this);
             sb.Begin(this, true);
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (App.DesktopFilePath != null)
+            {
+                _selectedFilePath = App.DesktopFilePath;
+                DoStartButtonAnimation();
+            }
         }
 
         /// <summary>
