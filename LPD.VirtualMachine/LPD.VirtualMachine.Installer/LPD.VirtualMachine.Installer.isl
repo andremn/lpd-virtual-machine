@@ -341,9 +341,8 @@
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{09D2D911-D84C-494C-ACAE-71C70CD38488}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{32B2C4E0-7448-4F27-8F87-F950818E9AB7}</td><td>ICONS</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISX_DEFAULTCOMPONENT2</td><td>{8B1D32AF-1F1F-4DF6-A8CB-F0E77D88D209}</td><td>ICONS</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>LPD.VirtualMachine.Primary_output</td><td>{47526B89-9DD5-4020-AE07-0A5DFE1E8726}</td><td>INSTALLDIR</td><td>2</td><td/><td>lpd.virtualmachine.primary_o</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{09FC968A-616A-4E57-B91A-16B53796DDDF}</td><td>ICONS</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>LPD.VirtualMachine.Primary_output</td><td>{2F011A3B-2145-44BC-9A9E-A26EC7B7E482}</td><td>INSTALLDIR</td><td>2</td><td/><td>lpd.virtualmachine.primary_o</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -1054,10 +1053,8 @@
 		<col key="yes" def="s72">Directory_</col>
 		<col key="yes" def="s72">Component_</col>
 		<row><td>ICONS</td><td>ISX_DEFAULTCOMPONENT1</td></row>
-		<row><td>ICONS</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT1</td></row>
-		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 		<row><td>INSTALLDIR</td><td>LPD.VirtualMachine.Primary_output</td></row>
 	</table>
 
@@ -1853,6 +1850,7 @@
 		<col def="S255">ProgId_</col>
 		<col def="S64">MIME_</col>
 		<col def="s38">Feature_</col>
+		<row><td>asmd</td><td>LPD.VirtualMachine.Primary_output</td><td/><td/><td>AlwaysInstall</td></row>
 	</table>
 
 	<table name="Feature">
@@ -1876,7 +1874,6 @@
 		<col key="yes" def="s72">Component_</col>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
-		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 		<row><td>AlwaysInstall</td><td>LPD.VirtualMachine.Primary_output</td></row>
 	</table>
 
@@ -1892,11 +1889,12 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
-		<row><td>document.png</td><td>ISX_DEFAULTCOMPONENT2</td><td>Document.png</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\andre\Source\Repos\MV-PUCC\LPD.VirtualMachine\LPD.VirtualMachine\bin\Release\Icons\Document.png</td><td>1</td><td/></row>
+		<row><td>document.png</td><td>ISX_DEFAULTCOMPONENT1</td><td>Document.png</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\andre\Source\Repos\LPD\VirtualMachine\LPD.VirtualMachine\LPD.VirtualMachine\Icons\Document.png</td><td>1</td><td/></row>
 		<row><td>lpd.virtualmachine.primary_o</td><td>LPD.VirtualMachine.Primary_output</td><td>LPD.VirtualMachine.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;LPD.VirtualMachine&gt;|Built</td><td>3</td><td/></row>
-		<row><td>openfile.png</td><td>ISX_DEFAULTCOMPONENT2</td><td>OpenFile.png</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\andre\Source\Repos\MV-PUCC\LPD.VirtualMachine\LPD.VirtualMachine\bin\Release\Icons\OpenFile.png</td><td>1</td><td/></row>
-		<row><td>settings.png</td><td>ISX_DEFAULTCOMPONENT2</td><td>Settings.png</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\andre\Source\Repos\MV-PUCC\LPD.VirtualMachine\LPD.VirtualMachine\bin\Release\Icons\Settings.png</td><td>1</td><td/></row>
-		<row><td>start.png</td><td>ISX_DEFAULTCOMPONENT2</td><td>Start.png</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\andre\Source\Repos\MV-PUCC\LPD.VirtualMachine\LPD.VirtualMachine\bin\Release\Icons\Start.png</td><td>1</td><td/></row>
+		<row><td>openfile.png</td><td>ISX_DEFAULTCOMPONENT1</td><td>OpenFile.png</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\andre\Source\Repos\LPD\VirtualMachine\LPD.VirtualMachine\LPD.VirtualMachine\Icons\OpenFile.png</td><td>1</td><td/></row>
+		<row><td>play_pressed.ico</td><td>ISX_DEFAULTCOMPONENT1</td><td>PLAY-P~1.ICO|play-pressed.ico</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\andre\Source\Repos\LPD\VirtualMachine\LPD.VirtualMachine\LPD.VirtualMachine\Icons\play-pressed.ico</td><td>1</td><td/></row>
+		<row><td>settings.png</td><td>ISX_DEFAULTCOMPONENT1</td><td>Settings.png</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\andre\Source\Repos\LPD\VirtualMachine\LPD.VirtualMachine\LPD.VirtualMachine\Icons\Settings.png</td><td>1</td><td/></row>
+		<row><td>start.png</td><td>ISX_DEFAULTCOMPONENT1</td><td>Start.png</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\andre\Source\Repos\LPD\VirtualMachine\LPD.VirtualMachine\LPD.VirtualMachine\Icons\Start.png</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2039,9 +2037,8 @@
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_F4C4EBA8_0B43_4EFB_9040_CB4BC00FCDFD_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_A21D1F42_EFED_42A8_B188_65DB82F39B05_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>ISX_DEFAULTCOMPONENT2</td><td/><td/><td>_B002D1F9_AAD6_431D_9693_697836DD9F77_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>LPD.VirtualMachine.Primary_output</td><td/><td/><td>_FDB2BFF6_10B8_4B0F_A433_752C65F47463_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_D3D084B1_920E_4275_9B4A_A0B5D1AAFCC3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>LPD.VirtualMachine.Primary_output</td><td/><td/><td>_FC5873F0_3F86_400B_8BBB_238AC5DFA2B8_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
@@ -3444,6 +3441,8 @@
 		<row><td>IDS_SETUPEXE_LAUNCH_COND_E</td><td>1033</td><td>This setup was built with an evaluation version of InstallShield and can only be launched from setup.exe.</td><td>0</td><td/><td>-2078048458</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME1</td><td>1033</td><td>LPD Virtual Machine</td><td>0</td><td/><td>-2078035881</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME2</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>-2078057737</td></row>
+		<row><td>IDS_SHORTCUT_DISPLAY_NAME3</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>-2078064937</td></row>
+		<row><td>IDS_SHORTCUT_DISPLAY_NAME4</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>-2078040361</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO</td><td>1033</td><td>From the list of servers below, select the database server you would like to target.</td><td>0</td><td/><td>-2078048458</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_DB</td><td>1033</td><td>From the list of catalog names below, select the database catalog you would like to target.</td><td>0</td><td/><td>-2078048458</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_TEMPLATE</td><td>1033</td><td>[IS_SQLBROWSE_INTRO]</td><td>0</td><td/><td>-2078048458</td></row>
@@ -3737,6 +3736,7 @@
 		<row><td>ID_STRING3</td><td>1033</td><td>Nicoletti&amp;Frigids</td><td>0</td><td/><td>-2078068906</td></row>
 		<row><td>ID_STRING4</td><td>1033</td><td>LAUNCH~1.EXE|Launch LPD.VirtualMachine.exe</td><td>0</td><td/><td>-2078052265</td></row>
 		<row><td>ID_STRING5</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>-2078051593</td></row>
+		<row><td>ID_STRING6</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>-2078038313</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>-2078048458</td></row>
 	</table>
 
@@ -4331,8 +4331,8 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>IS_SQLSERVER_USERNAME</td><td>sa</td><td/></row>
 		<row><td>InstallChoice</td><td>AR</td><td/></row>
 		<row><td>LAUNCHPROGRAM</td><td>1</td><td/></row>
-		<row><td>LAUNCHPROGRAMCOMPCODE</td><td>{55D12091-079E-4090-B13D-FE488618B14A}</td><td/></row>
-		<row><td>LAUNCHPROGRAMFILEKEY</td><td>lpd.virtualmachine.exe</td><td/></row>
+		<row><td>LAUNCHPROGRAMCOMPCODE</td><td>{2F011A3B-2145-44BC-9A9E-A26EC7B7E482}</td><td/></row>
+		<row><td>LAUNCHPROGRAMFILEKEY</td><td>lpd.virtualmachine.primary_o</td><td/></row>
 		<row><td>LAUNCHREADME</td><td>1</td><td/></row>
 		<row><td>Manufacturer</td><td>##COMPANY_NAME##</td><td/></row>
 		<row><td>PIDKEY</td><td/><td/></row>
@@ -4360,7 +4360,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKVROOTS</td><td>##IDS_PROGMSG_IIS_ROLLBACKVROOTS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
-		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]LPD.VirtualMachine.exe</td><td/></row>
+		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]LPD.VirtualMachine.Primary output</td><td/></row>
 		<row><td>ProductCode</td><td>{6B9AB91F-15F4-40B3-B9B9-38D68758AE6A}</td><td/></row>
 		<row><td>ProductName</td><td>LPD Virtual Machine</td><td/></row>
 		<row><td>ProductVersion</td><td>0.91.1240</td><td/></row>
@@ -4525,8 +4525,8 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>_Built</td><td>lpdvir_1_lpd_virtual_machine</td><td>##IDS_SHORTCUT_DISPLAY_NAME2##</td><td>LPD.VirtualMachine.Primary_output</td><td>AlwaysInstall</td><td/><td/><td/><td/><td/><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
-		<row><td>_Built1</td><td>DesktopFolder</td><td>##IDS_SHORTCUT_DISPLAY_NAME2##</td><td>LPD.VirtualMachine.Primary_output</td><td>AlwaysInstall</td><td/><td/><td/><td/><td/><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>_Built</td><td>lpdvir_1_lpd_virtual_machine</td><td>##IDS_SHORTCUT_DISPLAY_NAME4##</td><td>LPD.VirtualMachine.Primary_output</td><td>AlwaysInstall</td><td/><td/><td/><td/><td/><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>_Built1</td><td>DesktopFolder</td><td>##IDS_SHORTCUT_DISPLAY_NAME4##</td><td>LPD.VirtualMachine.Primary_output</td><td>AlwaysInstall</td><td/><td/><td/><td/><td/><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">
@@ -4657,6 +4657,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="I2">Sequence</col>
 		<col def="L255">Command</col>
 		<col def="L255">Argument</col>
+		<row><td>asmd</td><td>Open</td><td/><td/><td>"%1"</td></row>
 	</table>
 
 	<table name="_Validation">
