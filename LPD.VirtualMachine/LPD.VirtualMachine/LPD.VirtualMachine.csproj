@@ -106,7 +106,7 @@
     <Compile Include="Engine\Instructions\RDInstruction.cs" />
     <Compile Include="Engine\Instructions\RETURNInstruction.cs" />
     <Compile Include="Engine\Instructions\SUBInstruction.cs" />
-    <Compile Include="Engine\ExecutionException.cs" />
+    <Compile Include="Engine\Exceptions\ExecutionException.cs" />
     <Compile Include="Engine\IOutputProvider.cs" />
     <Compile Include="Engine\IInputProvider.cs" />
     <Compile Include="Engine\InstructionSet.cs" />
@@ -117,13 +117,13 @@
     <Compile Include="Engine\Instructions\InstructionAttribute.cs" />
     <Compile Include="Engine\Instructions\JumpableInstruction.cs" />
     <Compile Include="Engine\Instructions\STARTInstruction.cs" />
-    <Compile Include="Engine\InvalidInstructionException.cs" />
-    <Compile Include="Engine\InvalidProgramCounterException.cs" />
+    <Compile Include="Engine\Exceptions\InvalidInstructionException.cs" />
+    <Compile Include="Engine\Exceptions\InvalidProgramCounterException.cs" />
     <Compile Include="Engine\IProgramExecutor.cs" />
     <Compile Include="Engine\ProgramCounter.cs" />
-    <Compile Include="Engine\Stack.cs" />
-    <Compile Include="Engine\StackChangedEventArgs.cs" />
-    <Compile Include="Engine\StackChangedReason.cs" />
+    <Compile Include="Engine\Stack\Stack.cs" />
+    <Compile Include="Engine\Stack\StackChangedEventArgs.cs" />
+    <Compile Include="Engine\Stack\StackChangedReason.cs" />
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="ViewModel\InstructionViewModel.cs" />
     <Compile Include="View\ExecutionWindow.xaml.cs">
