@@ -120,7 +120,7 @@ namespace LPD.VirtualMachine.View
                 NextInstructionButton.IsEnabled = false;
                 AppendLineToOutput(InputEnterValueText);
             });
-
+            
             TextCompositionManager.AddTextInputHandler(this, OnTextComposition);
             //Since the CPU execution is not done on the UI thread, this will not block the UI
             _inputSynchronizer.WaitOne();
@@ -272,12 +272,20 @@ namespace LPD.VirtualMachine.View
         /// Handles the changes of the current stack.
         /// </summary>
         /// <param name="reason">The reason the stack changed.</param>
-        private void HandleStackChanged(StackChangedReason reason)
+        private void HandleStackChanged(StackChangedEventArgs args)
         {
-            switch (reason)
+            switch (args.Reason)
             {
+                //The stack was completely ereased.
                 case StackChangedReason.Cleared:
                     StackListView.Items.Clear();
+                    break;
+                //Something was inserted in the stack.
+                case StackChangedReason.Inserted:
+                    int index = args.Index.Value;
+
+                    StackListView.Items.RemoveAt(index);
+                    StackListView.Items.Insert(index, Context.Memory.StackRegion.LoadFrom(index));
                     break;
                 //Something was removed from the stack.
                 case StackChangedReason.Popped:
@@ -358,7 +366,7 @@ namespace LPD.VirtualMachine.View
         /// <param name="e">The data of the event.</param>
         private void OnStackChanged(object sender, StackChangedEventArgs e)
         {
-            Dispatcher.Invoke(() => HandleStackChanged(e.Reason));
+            Dispatcher.Invoke(() => HandleStackChanged(e));
         }
 
         /// <summary>

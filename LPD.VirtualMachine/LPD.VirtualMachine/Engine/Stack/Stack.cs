@@ -87,7 +87,7 @@ namespace LPD.VirtualMachine.Engine
         public void StoreAt(int position, int item)
         {
             _array[position] = item;
-            NotifyStackChanged(StackChangedReason.Pushed);
+            NotifyStackChanged(StackChangedReason.Inserted, position);
         }
 
         /// <summary>
@@ -168,11 +168,11 @@ namespace LPD.VirtualMachine.Engine
         /// Notifies this stack has changed.
         /// </summary>
         /// <param name="reason">Why the stack changed.</param>
-        private void NotifyStackChanged(StackChangedReason reason)
+        private void NotifyStackChanged(StackChangedReason reason, int? index = null)
         {
             if (Changed != null)
             {
-                Changed(this, new StackChangedEventArgs(reason));
+                Changed(this, new StackChangedEventArgs(reason) { Index = index });
             }
         }
     }

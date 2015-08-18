@@ -121,6 +121,7 @@ namespace LPD.VirtualMachine.Engine.HAL
                         //... means we need do nothing or the instruction name is actually an address we may jump in the future.
                         //The only thing we need to do is increment the program counter.
                         context.ProgramCounter.Increment();
+                        _executor.OnInstructionExecuted();
                         continue;
                     }
 

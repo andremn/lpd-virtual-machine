@@ -105,6 +105,7 @@
     <Compile Include="Engine\Instructions\PRNInstruction.cs" />
     <Compile Include="Engine\Instructions\RDInstruction.cs" />
     <Compile Include="Engine\Instructions\RETURNInstruction.cs" />
+    <Compile Include="Engine\Instructions\STRInstruction.cs" />
     <Compile Include="Engine\Instructions\SUBInstruction.cs" />
     <Compile Include="Engine\Exceptions\ExecutionException.cs" />
     <Compile Include="Engine\IOutputProvider.cs" />

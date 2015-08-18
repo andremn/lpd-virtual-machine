@@ -20,5 +20,10 @@ namespace LPD.VirtualMachine.Engine
         /// Gets or sets why the stack has changed.
         /// </summary>
         public StackChangedReason Reason { get; set; }
+
+        /// <summary>
+        /// Gets or sets the index that was affected.
+        /// </summary>
+        public int? Index { get; set; }
     }
 }

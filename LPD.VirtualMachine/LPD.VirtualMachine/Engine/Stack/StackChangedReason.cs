@@ -10,6 +10,10 @@
         /// </summary>
         Cleared,
         /// <summary>
+        /// An item was inserted.
+        /// </summary>
+        Inserted,
+        /// <summary>
         /// An item was removed from the stack.
         /// </summary>
         Popped,
