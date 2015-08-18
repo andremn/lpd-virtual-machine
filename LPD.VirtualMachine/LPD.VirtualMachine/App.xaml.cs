@@ -31,17 +31,13 @@ namespace LPD.VirtualMachine
             
         }
 
+        /// <summary>
+        /// Occurs when the application is started.
+        /// </summary>
+        /// <param name="e">The program arguments.</param>
         protected override void OnStartup(StartupEventArgs e)
         {
-            //TODO - corrigir apropriadamente ?? 
-            try
-            {
-                _desktopFilePath = e.Args[0];
-            }
-            catch (System.Exception)
-            {
-                return;
-            }
+            _desktopFilePath = e.Args.Length > 0 ? e.Args[0] : null;
             base.OnStartup(e);
         }
     }
