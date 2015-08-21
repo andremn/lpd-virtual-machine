@@ -98,7 +98,7 @@ namespace LPD.VirtualMachine.Engine.HAL
                     //We cannot go on...
                     if (pc > instructions.Length)
                     {
-                        throw new InvalidProgramCounterException($"O PC na posição {pc} é maior do que a instrução na região de memória.");
+                        throw new InvalidProgramCounterException($"O PC na posição {pc} é maior do que a região de instruções da memória.");
                     }
 
                     //Gets the next instruction from the memory, splitted in instruction name and instruction parameter, if any.
