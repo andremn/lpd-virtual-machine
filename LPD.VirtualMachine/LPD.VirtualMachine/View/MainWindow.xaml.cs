@@ -65,13 +65,13 @@ namespace LPD.VirtualMachine.View
             sb.Begin(this, true);
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        private async void OnLoaded(object sender, RoutedEventArgs e)
         {
             if (App.DesktopFilePath != null)
             {
                 _selectedFilePath = App.DesktopFilePath;
                 DoStartButtonAnimation();
-            }
+            }            
         }
 
         /// <summary>
