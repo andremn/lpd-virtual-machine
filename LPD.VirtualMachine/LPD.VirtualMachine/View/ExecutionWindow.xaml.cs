@@ -24,6 +24,7 @@ namespace LPD.VirtualMachine.View
     /// </summary>
     public partial class ExecutionWindow : MetroWindow, IInputProvider, IOutputProvider, IProgramExecutor
     {
+        private const string InputDialogTitle = "Entre com um valor";
         private const string FatalErrorMessageBoxTitle = "Erro!";
         private const string FinishedMessageBoxTitle = "Fim da execução";
         private const string FinishedMessageBoxContent = "O programa chegou ao fim da execução sem erros.";
@@ -31,7 +32,7 @@ namespace LPD.VirtualMachine.View
         private const string BackspaceString = "\b";
         private const int DefaultMessageBoxDelay = 500;
 
-        private StringBuilder _inputBuffer;
+        private CustomInputDialog _inputDialog;
         private EventWaitHandle _inputSynchronizer;
         private EventWaitHandle _executionSynchronizer;
         private bool _hasStartedExecution = false;
@@ -54,8 +55,7 @@ namespace LPD.VirtualMachine.View
             InstructionsDataGrid.DataContext = ConvertInstructionsToInstructionViewModel(filePath);
             Context = context;
             Context.Memory.StackRegion.Changed += OnStackChanged;
-            _inputSynchronizer = new EventWaitHandle(false, EventResetMode.AutoReset);
-            _inputBuffer = new StringBuilder();
+            _inputDialog = new CustomInputDialog(InputDialogTitle);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace LPD.VirtualMachine.View
             }
             else
             {
-                if (Dispatcher.Invoke<bool>(CurrentCellContainsBreakpoint))
+                if (Dispatcher.Invoke<bool>(CurrentRowContainsBreakpoint))
                 {
                     Context.Mode = ExecutionMode.Debug;
                     _executionSynchronizer.WaitOne();
@@ -116,20 +116,9 @@ namespace LPD.VirtualMachine.View
         /// <returns>The next input value.</returns>
         public int ReadInputValue()
         {
-            Dispatcher.Invoke(() =>
-            {
-                NextInstructionButton.IsEnabled = false;
-                AppendLineToOutput(InputEnterValueText);
-            });
-            
-            TextCompositionManager.AddTextInputHandler(this, OnTextComposition);
-            //Since the CPU execution is not done on the UI thread, this will not block the UI
-            _inputSynchronizer.WaitOne();
-
-            int ret = int.Parse(_inputBuffer.ToString());
-
-            _inputBuffer.Clear();
-            return ret;
+            //Waits for user to input a value.
+            //We will block the CPU, but not the UI ;)
+            return Dispatcher.Invoke<Task<int>>(() => DoInput()).Result;
         }
 
         /// <summary>
@@ -141,7 +130,11 @@ namespace LPD.VirtualMachine.View
             Dispatcher.Invoke(() => AppendLineToOutput(value.ToString()));
         }
 
-        private bool CurrentCellContainsBreakpoint()
+        /// <summary>
+        /// Does the current selected InstructionsDataGrid's row contains a breakpoint?
+        /// </summary>
+        /// <returns>true if the current selected InstructionsDataGrid's row contains a breakpoint; false otherwise.</returns>
+        private bool CurrentRowContainsBreakpoint()
         {
             InstructionViewModel model = InstructionsDataGrid.Items[Context.ProgramCounter.Current] as InstructionViewModel;
 
@@ -151,6 +144,16 @@ namespace LPD.VirtualMachine.View
             }
 
             return model.HasBreakpoint;
+        }
+
+        /// <summary>
+        /// Gets an value inputed by the user.
+        /// </summary>
+        /// <returns>The value user inputed.</returns>
+        private async Task<int> DoInput()
+        {
+            NextInstructionButton.IsEnabled = false;
+            return await _inputDialog.ShowDialogAsync(this);
         }
 
         /// <summary>
@@ -173,6 +176,9 @@ namespace LPD.VirtualMachine.View
             await this.ShowMessageAsync(FatalErrorMessageBoxTitle, message);
         }
 
+        /// <summary>
+        /// Advances to the next instruction.
+        /// </summary>
         private void DoNextInstruction()
         {
             int currentInstructionAddress = Context.ProgramCounter.Current;
@@ -300,16 +306,6 @@ namespace LPD.VirtualMachine.View
         }
 
         /// <summary>
-        /// Updates the output with was inputed.
-        /// </summary>
-        private void UpdateInputLineOnOutput()
-        {
-            int index = OutputListView.Items.Count - 1;
-
-            OutputListView.Items[index] = InputEnterValueText + _inputBuffer;
-        }
-
-        /// <summary>
         /// Occurs when a column of a DataGrid is being automatically generated.
         /// </summary>
         /// <param name="sender"></param>
@@ -328,26 +324,6 @@ namespace LPD.VirtualMachine.View
                 }
             }
 
-        }
-
-        /// <summary>
-        /// Occurs when the user press a key.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The data of the event.</param>
-        private void OnTextComposition(object sender, TextCompositionEventArgs e)
-        {
-            string text = e.Text;
-
-            if (text == BackspaceString)
-            {
-                _inputBuffer.Remove(_inputBuffer.Length - 1, 1);
-                UpdateInputLineOnOutput();
-                return;
-            }
-
-            _inputBuffer.Append(e.Text);
-            Dispatcher.Invoke(UpdateInputLineOnOutput);
         }
 
         /// <summary>
@@ -427,16 +403,6 @@ namespace LPD.VirtualMachine.View
 
             Context.Mode = ExecutionMode.Normal;
             _executionSynchronizer.Set();
-        }
-
-        private void OnKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                NextInstructionButton.IsEnabled = true;
-                TextCompositionManager.RemoveTextInputHandler(this, OnTextComposition);
-                _inputSynchronizer.Set();
-            }
         }
     }
 }
