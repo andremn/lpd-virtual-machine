@@ -4,6 +4,7 @@ using LPD.VirtualMachine.ViewModel;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
@@ -152,7 +153,6 @@ namespace LPD.VirtualMachine.View
         /// <returns>The value user inputed.</returns>
         private async Task<int> DoInput()
         {
-            NextInstructionButton.IsEnabled = false;
             return await _inputDialog.ShowDialogAsync(this);
         }
 
@@ -281,7 +281,8 @@ namespace LPD.VirtualMachine.View
         /// <param name="reason">The reason the stack changed.</param>
         private void HandleStackChanged(StackChangedEventArgs args)
         {
-            switch (args.Reason)
+            #region TODO: Fix!   
+            /*switch (args.Reason)
             {
                 //The stack was completely ereased.
                 case StackChangedReason.Cleared:
@@ -296,13 +297,22 @@ namespace LPD.VirtualMachine.View
                     break;
                 //Something was removed from the stack.
                 case StackChangedReason.Popped:
-                    StackListView.Items.RemoveAt(StackListView.Items.Count - 1);
+                    int removedCount = StackListView.Items.Count - Context.Memory.StackRegion.Count;
+
+                    while (removedCount > 0)
+                    {
+                        StackListView.Items.RemoveAt(StackListView.Items.Count - 1);
+                        removedCount--;
+                    }
                     break;
                 //Something was added to the stack.
                 case StackChangedReason.Pushed:
                     StackListView.Items.Add(Context.Memory.StackRegion.Load());
                     break;
-            }
+            }*/
+            #endregion
+
+            StackListView.ItemsSource = Context.Memory.StackRegion.Take(Context.Memory.StackRegion.Top + 1);
         }
 
         /// <summary>

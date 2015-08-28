@@ -159,6 +159,7 @@ namespace LPD.VirtualMachine.View
                 string file = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
 
                 _selectedFilePath = file;
+                DoStartButtonAnimation();
                 PrepareExecution();
             }
         }

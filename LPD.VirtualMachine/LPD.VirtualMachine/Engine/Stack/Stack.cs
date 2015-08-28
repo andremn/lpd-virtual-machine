@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace LPD.VirtualMachine.Engine
 {
     /// <summary>
     /// Represents the region where the program data will be stored.
     /// </summary>
-    public sealed class Stack
+    public sealed class Stack : IEnumerable<int>
     {
         /// <summary>
         /// The top of the stack.
@@ -42,6 +44,11 @@ namespace LPD.VirtualMachine.Engine
         public int Top
         {
             get { return _top; }
+        }
+
+        public int Count
+        {
+            get { return _array.Length; }
         }
 
         /// <summary>
@@ -138,8 +145,8 @@ namespace LPD.VirtualMachine.Engine
                 throw new InvalidOperationException("The top of the stack is already at the lowest position.");
             }
 
-            NotifyStackChanged(StackChangedReason.Popped);
             _top--;
+            NotifyStackChanged(StackChangedReason.Popped);
         }
 
         /// <summary>
@@ -174,6 +181,16 @@ namespace LPD.VirtualMachine.Engine
             {
                 Changed(this, new StackChangedEventArgs(reason) { Index = index });
             }
+        }
+
+        public IEnumerator<int> GetEnumerator()
+        {
+            return ((IEnumerable<int>)_array).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable<int>)_array).GetEnumerator();
         }
     }
 }

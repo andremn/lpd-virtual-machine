@@ -21,6 +21,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
             Stack stack = context.Memory.StackRegion;
 
             value = stack.Load();
+            stack.Down();
 
             if (value == 0)
             {

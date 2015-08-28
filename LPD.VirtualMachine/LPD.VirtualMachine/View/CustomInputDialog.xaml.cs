@@ -16,7 +16,7 @@ namespace LPD.VirtualMachine.View
         /// <summary>
         /// The <see cref="TaskCompletionSource{int}"/> used to wait the user input.
         /// </summary>
-        private readonly TaskCompletionSource<int> _taskCompletionSource = new TaskCompletionSource<int>();
+        private TaskCompletionSource<int> _taskCompletionSource;
 
         /// <summary>
         /// Creates a new instance of the <see cref="CustomInputDialog"/> class with the specified title.
@@ -37,6 +37,8 @@ namespace LPD.VirtualMachine.View
         {
             int value;
 
+            _taskCompletionSource = new TaskCompletionSource<int>();
+            InputTextBox.Text = string.Empty;
             KeyDown += OnCustomInputDialogKeyDown;
             //Shows the dialog.
             await DialogManager.ShowMetroDialogAsync(window, this);
