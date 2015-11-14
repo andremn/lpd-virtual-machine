@@ -2,17 +2,17 @@
 <assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
   <!-- Activate Windows Common Controls v6 usage (XP and Vista): -->
   <dependency>
-  <dependentAssembly>
-    <assemblyIdentity
-      type="win32"
-      name="Microsoft.Windows.Common-Controls"
-      version="6.0.0.0"
-      processorArchitecture="*"
-      publicKeyToken="6595b64144ccf1df"
-      language="*"
+    <dependentAssembly>
+      <assemblyIdentity
+        type="win32"
+        name="Microsoft.Windows.Common-Controls"
+        version="6.0.0.0"
+        processorArchitecture="*"
+        publicKeyToken="6595b64144ccf1df"
+        language="*"
     />
-  </dependentAssembly>
-</dependency>
+    </dependentAssembly>
+  </dependency>
   <assemblyIdentity version="1.0.0.0" name="MyApplication.app"/>
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
     <security>

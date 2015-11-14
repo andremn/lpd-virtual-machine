@@ -73,6 +73,7 @@ namespace LPD.VirtualMachine.Engine
             {                
                 throw new ExecutionException("The top of the stack is already at the lowest position.");
             }
+
             return _array[_top];
         }
 
