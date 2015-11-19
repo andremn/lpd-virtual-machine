@@ -29,8 +29,8 @@ namespace LPD.VirtualMachine.ViewModel
         /// <summary>
         /// Gets or sets instruction comment.
         /// </summary>
-        [DisplayName("Comentário")]
-        public string Comment { get; set; }
+        [DisplayName("Argumentos")]
+        public string Arguments { get; set; }
 
         /// <summary>
         /// Gets or sets if the instruction has a breakpoint.
