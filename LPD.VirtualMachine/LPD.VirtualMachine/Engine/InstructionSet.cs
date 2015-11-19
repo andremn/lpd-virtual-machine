@@ -152,6 +152,11 @@ namespace LPD.VirtualMachine.Engine
         /// </summary>
         public const string RETURN = "RETURN";
 
+        /// <summary>
+        /// The RETURNF instruction name.
+        /// </summary>
+        public const string RETURNF = "RETURNF";
+
         #endregion
 
         /// <summary>

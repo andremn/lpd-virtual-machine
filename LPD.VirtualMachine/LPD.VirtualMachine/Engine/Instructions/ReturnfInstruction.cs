@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static LPD.VirtualMachine.Engine.InstructionSet;
 
 namespace LPD.VirtualMachine.Engine.Instructions
 {
+    /// <summary>
+    /// The function return (RETURNF) instruction.
+    /// </summary>
+    [Instruction(RETURNF)]
     public class ReturnfInstruction : JumpableInstruction
     {
         protected override int SpecificExecute(ExecutionContext context, int[] parameters)
@@ -18,7 +23,6 @@ namespace LPD.VirtualMachine.Engine.Instructions
             stack.Down();
             dallocInstruction.Execute(context, parameters);
             retAddress = stack.Load();
-            stack.Down();
             stack.Store(retValue);
 
             return retAddress;
