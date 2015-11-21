@@ -67,8 +67,6 @@ namespace LPD.VirtualMachine.View
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debugger.Launch();
-
             if (App.FileFromArgument != null)
             {
                 _selectedFilePath = App.FileFromArgument;
