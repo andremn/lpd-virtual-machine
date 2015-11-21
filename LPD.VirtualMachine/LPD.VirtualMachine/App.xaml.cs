@@ -13,14 +13,14 @@ namespace LPD.VirtualMachine
         /// </summary>
         public const string SystemMemorySettingKey = "SystemMemory";
 
-        private static string _desktopFilePath = null;
+        private static string _fileFromArgument = null;
 
         /// <summary>
         /// Gets the file's path passed from the desktop, if any.
         /// </summary>
-        public static string DesktopFilePath
+        public static string FileFromArgument
         {
-            get { return _desktopFilePath; }
+            get { return _fileFromArgument; }
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace LPD.VirtualMachine
         /// <param name="e">The program arguments.</param>
         protected override void OnStartup(StartupEventArgs e)
         {
-            _desktopFilePath = e.Args.Length > 0 ? e.Args[0] : null;
+            _fileFromArgument = e.Args.Length > 0 ? e.Args[0] : null;
             base.OnStartup(e);
         }
     }

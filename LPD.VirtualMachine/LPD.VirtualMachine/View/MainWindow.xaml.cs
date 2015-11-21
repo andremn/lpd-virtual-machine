@@ -67,9 +67,11 @@ namespace LPD.VirtualMachine.View
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (App.DesktopFilePath != null)
+            System.Diagnostics.Debugger.Launch();
+
+            if (App.FileFromArgument != null)
             {
-                _selectedFilePath = App.DesktopFilePath;
+                _selectedFilePath = App.FileFromArgument;
                 DoStartButtonAnimation();
             }            
         }
