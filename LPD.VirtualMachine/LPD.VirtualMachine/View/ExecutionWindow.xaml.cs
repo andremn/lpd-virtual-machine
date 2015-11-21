@@ -368,15 +368,16 @@ namespace LPD.VirtualMachine.View
 
             for (uint i = 0; i < instructions.Length; i++)
             {
+                //Removes various spaces and tabs and replace them by a single space.
                 string instruction = Regex.Replace(instructions[i], @"(?:\s+|\t+)", " ");
                 string[] instructionParts = instruction.Split(' ');
+                string arguments = instructionParts.Length > 1 ? instructionParts[1] : string.Empty;
 
                 instructionViewModel.Add(new InstructionViewModel()
                 {
-                    Arguments = instructionParts.Length > 1 ? instructionParts[1] : string.Empty,
-                    //Removes various spaces and tabs and replace them single space.
+                    Arguments = string.Join(", ", arguments.Split(',')),
                     Content = instructionParts[0],
-                    LineNumber = i
+                    LineNumber = i + 1
                 });
             }
 
