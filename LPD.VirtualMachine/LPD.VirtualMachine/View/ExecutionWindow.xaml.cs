@@ -377,7 +377,7 @@ namespace LPD.VirtualMachine.View
                 {
                     Arguments = string.Join(", ", arguments.Split(',')),
                     Content = instructionParts[0],
-                    LineNumber = i + 1
+                    LineNumber = i
                 });
             }
 
