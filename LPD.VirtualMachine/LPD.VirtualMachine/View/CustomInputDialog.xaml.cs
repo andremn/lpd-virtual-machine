@@ -1,6 +1,8 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -13,6 +15,12 @@ namespace LPD.VirtualMachine.View
     /// </summary>
     public partial class CustomInputDialog : BaseMetroDialog
     {
+        /// <summary>
+        /// Gets the regular expression used to verify if a text is a integer number.
+        /// </summary>
+
+        public const string IntegerNumberRegexExpression = @"^-?[0-9]\d*(\.\d+)?$";
+
         /// <summary>
         /// The <see cref="TaskCompletionSource{int}"/> used to wait the user input.
         /// </summary>
@@ -57,7 +65,7 @@ namespace LPD.VirtualMachine.View
         /// </summary>
         private void SetResult()
         {
-            _taskCompletionSource.SetResult(int.Parse(InputTextBox.Text));
+            _taskCompletionSource.TrySetResult(int.Parse(InputTextBox.Text));
         }
 
         /// <summary>
@@ -82,6 +90,35 @@ namespace LPD.VirtualMachine.View
                 KeyDown -= OnCustomInputDialogKeyDown;
                 SetResult();
             }
+        }
+
+        private void OnInputTextBoxPasting(object sender, DataObjectPastingEventArgs e)
+        {
+            if (e.DataObject.GetDataPresent(typeof(string)))
+            {
+                string text = (string)e.DataObject.GetData(typeof(string));
+
+                if (!TextBoxTextAllowed(text))
+                {
+                    e.CancelCommand();
+                }
+            }
+            else
+            {
+                e.CancelCommand();
+            }
+        }
+
+        private void OnInputTextBoxPreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            var text = e.Text;
+
+            e.Handled = text == "-" ? InputTextBox.Text.Contains('-') : !TextBoxTextAllowed(text);
+        }
+
+        private bool TextBoxTextAllowed(string text)
+        {
+            return new Regex(IntegerNumberRegexExpression).IsMatch(text);
         }
     }
 }

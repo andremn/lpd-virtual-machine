@@ -33,7 +33,7 @@ namespace LPD.VirtualMachine.Engine
             
             using (StreamReader reader = new StreamReader(File.OpenRead(inputFilePath)))
             {
-                string program = reader.ReadToEnd();
+                string program = reader.ReadToEnd().ToUpper();
                 //First step
                 IDictionary<string, int> addresses = GetAddresses(program);
                 //Second step
@@ -51,7 +51,7 @@ namespace LPD.VirtualMachine.Engine
         private static IDictionary<string, int> GetAddresses(string program)
         {
             IEnumerable<string> instructions = program.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                                                      .Select(instruction => instruction.TrimEnd());
+                                                      .Select(instruction => instruction.TrimEnd().ToUpper());
             Dictionary<string, int> addresses = new Dictionary<string, int>();
             int address = -1;
 

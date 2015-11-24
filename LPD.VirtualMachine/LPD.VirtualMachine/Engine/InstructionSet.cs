@@ -85,7 +85,7 @@ namespace LPD.VirtualMachine.Engine
         /// <summary>
         /// The CMQ instruction name.
         /// </summary>
-        public const string CEQ = "CMQ";
+        public const string CEQ = "CEQ";
 
         /// <summary>
         /// The CDIF instruction name.

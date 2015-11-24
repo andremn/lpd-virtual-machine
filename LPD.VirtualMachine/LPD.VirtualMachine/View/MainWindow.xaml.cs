@@ -107,9 +107,16 @@ namespace LPD.VirtualMachine.View
         /// <returns>The window that will show the execution information.</returns>
         private ExecutionWindow PrepareExecution()
         {
+            System.Diagnostics.Debugger.Launch();
             int virtualMachineSize = (int)Settings.Default[App.SystemMemorySettingKey];
             InstructionSet instructionsCollection = InstructionSet.CreateFromFile(_selectedFilePath);
             Memory memory = Memory.CreateMemory(virtualMachineSize, instructionsCollection);
+
+            if (memory.StackRegion.Count == 0)
+            {
+                throw new OutOfMemoryException("No memory for stack.");
+            }
+
             ExecutionWindow executionWindow;
             ExecutionContext currentContext = new ExecutionContext()
             {
@@ -128,11 +135,18 @@ namespace LPD.VirtualMachine.View
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The info of the event.</param>
-        private void OnStartButtonClick(object sender, RoutedEventArgs e)
+        private async void OnStartButtonClick(object sender, RoutedEventArgs e)
         {
-            ExecutionWindow executionWindow = PrepareExecution();
+            try
+            {
+                ExecutionWindow executionWindow = PrepareExecution();
 
-            executionWindow.ShowDialog();
+                executionWindow.ShowDialog();
+            }
+            catch (OutOfMemoryException)
+            {
+                
+            }
         }
 
         /// <summary>
