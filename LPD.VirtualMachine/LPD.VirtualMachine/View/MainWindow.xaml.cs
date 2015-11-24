@@ -107,7 +107,6 @@ namespace LPD.VirtualMachine.View
         /// <returns>The window that will show the execution information.</returns>
         private ExecutionWindow PrepareExecution()
         {
-            System.Diagnostics.Debugger.Launch();
             int virtualMachineSize = (int)Settings.Default[App.SystemMemorySettingKey];
             InstructionSet instructionsCollection = InstructionSet.CreateFromFile(_selectedFilePath);
             Memory memory = Memory.CreateMemory(virtualMachineSize, instructionsCollection);
