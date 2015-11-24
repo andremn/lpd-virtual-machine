@@ -13,12 +13,12 @@ namespace LPD.VirtualMachine.View
         /// <summary>
         /// The minimum virtual machine memory.
         /// </summary>
-        private const double MinimumMemory = 128;
+        private const double MinimumMemory = 256;
         
         /// <summary>
         /// The maximum virtual machine memory.
         /// </summary>
-        private const double MaximumMemory = 512;
+        private const double MaximumMemory = 2048;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsWindow"/> class.

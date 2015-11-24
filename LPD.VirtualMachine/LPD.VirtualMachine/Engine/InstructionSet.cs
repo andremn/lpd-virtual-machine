@@ -83,7 +83,7 @@ namespace LPD.VirtualMachine.Engine
         public const string CMA = "CMA";
 
         /// <summary>
-        /// The CMQ instruction name.
+        /// The CEQ instruction name.
         /// </summary>
         public const string CEQ = "CEQ";
 

@@ -1,6 +1,6 @@
 ﻿using LPD.VirtualMachine.Engine;
 using LPD.VirtualMachine.Engine.HAL;
-using LPD.VirtualMachine.Properties;
+using static LPD.VirtualMachine.Properties.Resources;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
@@ -9,6 +9,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System;
+using System.Threading.Tasks;
+using LPD.VirtualMachine.Properties;
 
 namespace LPD.VirtualMachine.View
 {
@@ -65,7 +67,7 @@ namespace LPD.VirtualMachine.View
             sb.Begin(this, true);
         }
 
-        private async void OnLoaded(object sender, RoutedEventArgs e)
+        private void OnLoaded(object sender, RoutedEventArgs e)
         {
             if (App.FileFromArgument != null)
             {
@@ -105,28 +107,31 @@ namespace LPD.VirtualMachine.View
         /// Prepares the virtual machine to start the execution.
         /// </summary>
         /// <returns>The window that will show the execution information.</returns>
-        private ExecutionWindow PrepareExecution()
+        private Task<ExecutionWindow> PrepareExecutionAsync()
         {
-            int virtualMachineSize = (int)Settings.Default[App.SystemMemorySettingKey];
-            InstructionSet instructionsCollection = InstructionSet.CreateFromFile(_selectedFilePath);
-            Memory memory = Memory.CreateMemory(virtualMachineSize, instructionsCollection);
-
-            if (memory.StackRegion.Count == 0)
+            return Task.Run(async () =>
             {
-                throw new OutOfMemoryException("No memory for stack.");
-            }
+                int virtualMachineSize = (int)Settings.Default[App.SystemMemorySettingKey];
+                InstructionSet instructionsCollection = InstructionSet.CreateFromFile(_selectedFilePath);
+                Memory memory = Memory.CreateMemory(virtualMachineSize, instructionsCollection);
 
-            ExecutionWindow executionWindow;
-            ExecutionContext currentContext = new ExecutionContext()
-            {
-                ProgramCounter = new ProgramCounter(CPU.InitialProgramCounter),
-                Memory = memory
-            };
+                if (memory.StackRegion.Count == 0)
+                {
+                    await this.ShowMessageAsync(ProgramTooBigErrorMessage, ProgramTooBigErrorTitle);
+                }
 
-            executionWindow = new ExecutionWindow(_selectedFilePath, currentContext);
-            currentContext.InputProvider = executionWindow as IInputProvider;
-            currentContext.OutputProvider = executionWindow as IOutputProvider;
-            return executionWindow;
+                ExecutionWindow executionWindow;
+                ExecutionContext currentContext = new ExecutionContext()
+                {
+                    ProgramCounter = new ProgramCounter(CPU.InitialProgramCounter),
+                    Memory = memory
+                };
+
+                executionWindow = new ExecutionWindow(_selectedFilePath, currentContext);
+                currentContext.InputProvider = executionWindow as IInputProvider;
+                currentContext.OutputProvider = executionWindow as IOutputProvider;
+                return executionWindow;
+            });
         }
 
         /// <summary>
@@ -138,7 +143,7 @@ namespace LPD.VirtualMachine.View
         {
             try
             {
-                ExecutionWindow executionWindow = PrepareExecution();
+                ExecutionWindow executionWindow = await PrepareExecutionAsync();
 
                 executionWindow.ShowDialog();
             }
@@ -163,7 +168,7 @@ namespace LPD.VirtualMachine.View
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The data of the event.</param>
-        private void OnLoadButtonDrop(object sender, DragEventArgs e)
+        private async void OnLoadButtonDrop(object sender, DragEventArgs e)
         {
             StopDragEnterAnimation();
 
@@ -173,7 +178,7 @@ namespace LPD.VirtualMachine.View
 
                 _selectedFilePath = file;
                 DoStartButtonAnimation();
-                PrepareExecution();
+                await PrepareExecutionAsync();
             }
         }
 

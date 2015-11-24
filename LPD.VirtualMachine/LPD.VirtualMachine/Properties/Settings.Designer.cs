@@ -25,7 +25,7 @@ namespace LPD.VirtualMachine.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("256")]
+        [global::System.Configuration.DefaultSettingValueAttribute("512")]
         public int SystemMemory {
             get {
                 return ((int)(this["SystemMemory"]));

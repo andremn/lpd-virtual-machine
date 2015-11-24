@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="SystemMemory" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">256</Value>
+      <Value Profile="(Default)">512</Value>
     </Setting>
   </Settings>
 </SettingsFile>
