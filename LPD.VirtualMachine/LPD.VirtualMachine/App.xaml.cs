@@ -12,23 +12,25 @@ namespace LPD.VirtualMachine
         /// The key for the memory seeting.
         /// </summary>
         public const string SystemMemorySettingKey = "SystemMemory";
-
-        private static string _fileFromArgument = null;
-
+        
         /// <summary>
         /// Gets the file's path passed from the desktop, if any.
         /// </summary>
-        public static string FileFromArgument
-        {
-            get { return _fileFromArgument; }
-        }
+        public static string FileFromArgument { get; private set; }
+
+        /// <summary>
+        /// Gets the name of the program passed from the compiler, if any.
+        /// </summary>
+        public static string ProgramNameFromArgument { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="App"/> class.
         /// </summary>
         public App()
         {
-            
+#if DEBUG
+            System.Diagnostics.Debugger.Launch();
+#endif
         }
 
         /// <summary>
@@ -37,7 +39,8 @@ namespace LPD.VirtualMachine
         /// <param name="e">The program arguments.</param>
         protected override void OnStartup(StartupEventArgs e)
         {
-            _fileFromArgument = e.Args.Length > 0 ? e.Args[0] : null;
+            FileFromArgument = e.Args.Length > 0 ? e.Args[0] : null;
+            ProgramNameFromArgument = e.Args.Length > 1 ? e.Args[1] : null;
             base.OnStartup(e);
         }
     }

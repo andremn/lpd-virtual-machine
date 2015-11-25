@@ -139,7 +139,7 @@ namespace LPD.VirtualMachine.View
                 Memory = memory
             };
 
-            executionWindow = new ExecutionWindow(_selectedFilePath, currentContext);
+            executionWindow = new ExecutionWindow(_selectedFilePath, App.ProgramNameFromArgument, currentContext);
             currentContext.InputProvider = executionWindow as IInputProvider;
             currentContext.OutputProvider = executionWindow as IOutputProvider;
             return executionWindow;

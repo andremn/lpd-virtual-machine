@@ -42,17 +42,18 @@ namespace LPD.VirtualMachine.View
         /// Gets the current execution context.
         /// </summary>
         public Engine.ExecutionContext Context { get; private set; }
-
+        
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExecutionWindow"/> class with the specified program path.
+        /// Initializes a new instance of the <see cref="ExecutionWindow"/> class with the specified program path and name.
         /// <param name="filePath">The path of the program going to be executed.</param>
+        /// <param name="programName">The name of the program going to be executed.</param>
         /// <param name="context">The execution context.</param>
         /// </summary>
-        public ExecutionWindow(string filePath, Engine.ExecutionContext context)
+        public ExecutionWindow(string filePath, string programName, Engine.ExecutionContext context)
         {
             InitializeComponent();
             Loaded += OnWindowLoaded;
-            Title += GetFileNameWithoutExtension(filePath);
+            Title += programName ?? GetFileNameWithoutExtension(filePath);
             InstructionsDataGrid.DataContext = ConvertInstructionsToInstructionViewModel(filePath);
             Context = context;
             Context.Memory.StackRegion.Changed += OnStackChanged;
