@@ -107,31 +107,42 @@ namespace LPD.VirtualMachine.View
         /// Prepares the virtual machine to start the execution.
         /// </summary>
         /// <returns>The window that will show the execution information.</returns>
-        private Task<ExecutionWindow> PrepareExecutionAsync()
+        private async Task<ExecutionWindow> PrepareExecutionAsync()
         {
-            return Task.Run(async () =>
+            Memory memory = null;
+
+            await Task.Run(async () =>
             {
                 int virtualMachineSize = (int)Settings.Default[App.SystemMemorySettingKey];
                 InstructionSet instructionsCollection = InstructionSet.CreateFromFile(_selectedFilePath);
-                Memory memory = Memory.CreateMemory(virtualMachineSize, instructionsCollection);
+                Memory mem = Memory.CreateMemory(virtualMachineSize, instructionsCollection);
 
-                if (memory.StackRegion.Count == 0)
+                if (mem.StackRegion.Count <= 0)
                 {
                     await this.ShowMessageAsync(ProgramTooBigErrorMessage, ProgramTooBigErrorTitle);
+                    return;
                 }
 
-                ExecutionWindow executionWindow;
-                ExecutionContext currentContext = new ExecutionContext()
-                {
-                    ProgramCounter = new ProgramCounter(CPU.InitialProgramCounter),
-                    Memory = memory
-                };
-
-                executionWindow = new ExecutionWindow(_selectedFilePath, currentContext);
-                currentContext.InputProvider = executionWindow as IInputProvider;
-                currentContext.OutputProvider = executionWindow as IOutputProvider;
-                return executionWindow;
+                memory = mem;
             });
+                        
+            if (memory == null)
+            {
+                //We don't have memory :'(
+                return null;
+            }
+
+            ExecutionWindow executionWindow;
+            ExecutionContext currentContext = new ExecutionContext()
+            {
+                ProgramCounter = new ProgramCounter(CPU.InitialProgramCounter),
+                Memory = memory
+            };
+
+            executionWindow = new ExecutionWindow(_selectedFilePath, currentContext);
+            currentContext.InputProvider = executionWindow as IInputProvider;
+            currentContext.OutputProvider = executionWindow as IOutputProvider;
+            return executionWindow;
         }
 
         /// <summary>
@@ -145,7 +156,10 @@ namespace LPD.VirtualMachine.View
             {
                 ExecutionWindow executionWindow = await PrepareExecutionAsync();
 
-                executionWindow.ShowDialog();
+                if (executionWindow != null)
+                {
+                    executionWindow.ShowDialog();
+                }
             }
             catch (OutOfMemoryException)
             {
