@@ -53,7 +53,7 @@
     </Window.Resources>
 
     <StackPanel>
-        <TextBlock Text="Clique no botão logo abaixo para carregar um arquivo ou arreste o arquivo até ele"
+        <TextBlock Text="Clique no botão logo abaixo para carregar um arquivo ou arraste o arquivo até ele"
                    TextAlignment="Center"
                    Style="{StaticResource TextStyle}"
                    TextWrapping="Wrap"
