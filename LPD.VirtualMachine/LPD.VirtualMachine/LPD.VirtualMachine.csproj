@@ -128,7 +128,7 @@
     <Compile Include="Engine\Instructions\ORInstruction.cs" />
     <Compile Include="Engine\Instructions\PRNInstruction.cs" />
     <Compile Include="Engine\Instructions\RDInstruction.cs" />
-    <Compile Include="Engine\Instructions\ReturnfInstruction.cs" />
+    <Compile Include="Engine\Instructions\RETURNFInstruction.cs" />
     <Compile Include="Engine\Instructions\RETURNInstruction.cs" />
     <Compile Include="Engine\Instructions\STRInstruction.cs" />
     <Compile Include="Engine\Instructions\SUBInstruction.cs" />

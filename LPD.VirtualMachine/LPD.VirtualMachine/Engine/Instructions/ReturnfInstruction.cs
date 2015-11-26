@@ -11,7 +11,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
     /// The function return (RETURNF) instruction.
     /// </summary>
     [Instruction(RETURNF)]
-    public class ReturnfInstruction : JumpableInstruction
+    public class RETURNFInstruction : JumpableInstruction
     {
         protected override int SpecificExecute(ExecutionContext context, int[] parameters)
         {

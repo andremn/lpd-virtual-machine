@@ -19,7 +19,7 @@ namespace LPD.VirtualMachine.View
         /// Gets the regular expression used to verify if a text is a integer number.
         /// </summary>
 
-        public const string IntegerNumberRegexExpression = @"^-?[0-9]\d*(\.\d+)?$";
+        public const string IntegerNumberRegexExpression = @"^-?[0-9]\d*(\d+)?$";
 
         /// <summary>
         /// The <see cref="TaskCompletionSource{int}"/> used to wait the user input.
