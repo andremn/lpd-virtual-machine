@@ -7,9 +7,8 @@
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       mc:Ignorable="d"
                       GlowBrush="{DynamicResource AccentColorBrush}"
-                      Title="Máquina Virtual - LPD" Width="700"
-                      MinWidth="700" MinHeight="600" 
-                      MaxWidth="700" MaxHeight="600" Icon="/LPD.VirtualMachine;component/Icons/play-pressed.ico">
+                      Title="Máquina Virtual - LPD" Width="700" Height="600"
+                      MinWidth="700" MinHeight="600" Icon="/LPD.VirtualMachine;component/Icons/play-pressed.ico">
 
     <Window.Resources>
         <Storyboard x:Key="DragBeginAnimation">
