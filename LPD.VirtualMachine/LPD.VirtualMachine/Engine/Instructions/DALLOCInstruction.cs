@@ -11,7 +11,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
             int slots = parameters[1];
             Stack stack = context.Memory.StackRegion;
 
-            for (int i = 0; i < slots; i++)
+            for (int i = slots - 1; i >= 0; i--)
             {
                 stack.StoreAt(baseIndex + i, stack.Load());
                 stack.Down();

@@ -119,7 +119,7 @@ namespace LPD.VirtualMachine.View
 
                 if (mem.StackRegion.Count <= 0)
                 {
-                    await this.ShowMessageAsync(ProgramTooBigErrorMessage, ProgramTooBigErrorTitle);
+                    await this.Dispatcher.InvokeAsync(async () => await this.ShowMessageAsync(ProgramTooBigErrorTitle, ProgramTooBigErrorMessage));
                     return;
                 }
 

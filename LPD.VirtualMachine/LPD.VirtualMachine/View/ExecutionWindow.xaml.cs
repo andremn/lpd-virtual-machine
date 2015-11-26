@@ -84,7 +84,10 @@ namespace LPD.VirtualMachine.View
         /// </summary>
         public void OnInstructionExecuted()
         {
-            Dispatcher.Invoke(DoNextInstruction);
+            if (Context.Mode == ExecutionMode.Debug)
+            {
+                Dispatcher.Invoke(DoNextInstruction);
+            }
         }
 
         /// <summary>
@@ -282,38 +285,41 @@ namespace LPD.VirtualMachine.View
         /// <param name="reason">The reason the stack changed.</param>
         private void HandleStackChanged(StackChangedEventArgs args)
         {
-            #region TODO: Fix!   
-            /*switch (args.Reason)
+            if (Context.Mode == ExecutionMode.Debug)
             {
-                //The stack was completely ereased.
-                case StackChangedReason.Cleared:
-                    StackListView.Items.Clear();
-                    break;
-                //Something was inserted in the stack.
-                case StackChangedReason.Inserted:
-                    int index = args.Index.Value;
+                #region TODO: Fix!   
+                /*switch (args.Reason)
+                {
+                    //The stack was completely ereased.
+                    case StackChangedReason.Cleared:
+                        StackListView.Items.Clear();
+                        break;
+                    //Something was inserted in the stack.
+                    case StackChangedReason.Inserted:
+                        int index = args.Index.Value;
 
-                    StackListView.Items.RemoveAt(index);
-                    StackListView.Items.Insert(index, Context.Memory.StackRegion.LoadFrom(index));
-                    break;
-                //Something was removed from the stack.
-                case StackChangedReason.Popped:
-                    int removedCount = StackListView.Items.Count - Context.Memory.StackRegion.Count;
+                        StackListView.Items.RemoveAt(index);
+                        StackListView.Items.Insert(index, Context.Memory.StackRegion.LoadFrom(index));
+                        break;
+                    //Something was removed from the stack.
+                    case StackChangedReason.Popped:
+                        int removedCount = StackListView.Items.Count - Context.Memory.StackRegion.Count;
 
-                    while (removedCount > 0)
-                    {
-                        StackListView.Items.RemoveAt(StackListView.Items.Count - 1);
-                        removedCount--;
-                    }
-                    break;
-                //Something was added to the stack.
-                case StackChangedReason.Pushed:
-                    StackListView.Items.Add(Context.Memory.StackRegion.Load());
-                    break;
-            }*/
-            #endregion
+                        while (removedCount > 0)
+                        {
+                            StackListView.Items.RemoveAt(StackListView.Items.Count - 1);
+                            removedCount--;
+                        }
+                        break;
+                    //Something was added to the stack.
+                    case StackChangedReason.Pushed:
+                        StackListView.Items.Add(Context.Memory.StackRegion.Load());
+                        break;
+                }*/
+                #endregion
 
-            StackListView.ItemsSource = Context.Memory.StackRegion.Take(Context.Memory.StackRegion.Top + 1);
+                StackListView.ItemsSource = Context.Memory.StackRegion.Take(Context.Memory.StackRegion.Top + 1);
+            }
         }
 
         /// <summary>
@@ -334,7 +340,6 @@ namespace LPD.VirtualMachine.View
                     e.Column.IsReadOnly = true;
                 }
             }
-
         }
 
         /// <summary>

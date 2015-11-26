@@ -22,7 +22,7 @@ namespace LPD.VirtualMachine.Engine.Instructions
             first = stack.Load();
             stack.Down();
             second = stack.Load();
-            stack.Store(first / second);
+            stack.Store(second / first);
         }
     }
 }

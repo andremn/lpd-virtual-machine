@@ -18,9 +18,11 @@ namespace LPD.VirtualMachine.Engine.HAL
         public static Memory CreateMemory(int maximumSize, InstructionSet instructions)
         {
             Memory memory = new Memory(maximumSize);
+            int stackMemory;
 
             memory.LoadInstructions(instructions.Instructions);
-            memory.StackRegion = new Stack(maximumSize - instructions.Size);
+            stackMemory = maximumSize - instructions.Size;
+            memory.StackRegion = new Stack(stackMemory < 0 ? 0 : stackMemory);
             return memory;
         }
 
