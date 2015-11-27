@@ -13,6 +13,8 @@ namespace LPD.VirtualMachine.Engine
     /// </summary>
     public static class Assembler
     {
+        private static string[] _Instructions;
+
         /// <summary>
         /// Assembles the instructions in the input file to a new file specified as the output file.
         /// This methods simply translates labels to memory addres, so the CPU can execute the program.
@@ -30,10 +32,16 @@ namespace LPD.VirtualMachine.Engine
             {
                 throw new ArgumentException($"O parametro {nameof(outputFilePath)} é nulo ou vazio.");
             }
-            
+
+
+
             using (StreamReader reader = new StreamReader(File.OpenRead(inputFilePath)))
             {
                 string program = reader.ReadToEnd().ToUpper();
+
+                _Instructions = program.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                                                          .Select(instruction => instruction.TrimStart().TrimEnd())
+                                                          .ToArray();
                 //First step
                 IDictionary<string, int> addresses = GetAddresses(program);
                 //Second step
@@ -50,12 +58,10 @@ namespace LPD.VirtualMachine.Engine
         /// <returns>A collection of label and its address.</returns>
         private static IDictionary<string, int> GetAddresses(string program)
         {
-            IEnumerable<string> instructions = program.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                                                      .Select(instruction => instruction.TrimEnd().ToUpper());
             Dictionary<string, int> addresses = new Dictionary<string, int>();
             int address = -1;
 
-            foreach (string instruction in instructions)
+            foreach (string instruction in _Instructions)
             {
                 string[] splittedInstruction = instruction.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -69,7 +75,7 @@ namespace LPD.VirtualMachine.Engine
                 addresses[splittedInstruction[0]] = address;
             }
 
-            return addresses;
+            return addresses.OrderByDescending(pair => pair.Value).ToDictionary((keyItem) => keyItem.Key, (valueItem) => valueItem.Value);
         }
 
         /// <summary>
@@ -80,14 +86,31 @@ namespace LPD.VirtualMachine.Engine
         /// <returns>The assembled program.</returns>
         private static string AssembleInstructions(string program, IDictionary<string, int> addresses)
         {
-            StringBuilder stringBuilder = new StringBuilder(program);
+            var regex = new Regex(@"L\d+$");
 
-            foreach (var address in addresses)
+            for (int i = 0; i < _Instructions.Length; i++)
             {
-                stringBuilder.Replace(address.Key, address.Value.ToString());
+                string[] splittedInstruction = _Instructions[i].Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (splittedInstruction.Length > 1)
+                {
+                    if (regex.IsMatch(splittedInstruction[1]))
+                    {
+                        var label = splittedInstruction[1];
+
+                        int address;
+
+                        if (!addresses.TryGetValue(label, out address))
+                        {
+                            continue;
+                        }
+
+                        _Instructions[i] = _Instructions[i].Replace(label, address.ToString());
+                    }
+                }
             }
 
-            return stringBuilder.ToString();
+            return string.Join(Environment.NewLine, _Instructions);
         }
 
         /// <summary>
