@@ -17,6 +17,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Xceed.Wpf.Toolkit;
 using static System.IO.Path;
+using System.Windows.Media;
 
 namespace LPD.VirtualMachine.View
 {
@@ -279,6 +280,24 @@ namespace LPD.VirtualMachine.View
             return null;
         }
 
+        private DependencyObject RecursiveVisualChildFinder<T>(DependencyObject rootObject)
+        {
+            var child = VisualTreeHelper.GetChild(rootObject, 0);
+            if (child == null) return null;
+
+            return child.GetType() == typeof(T) ? child : RecursiveVisualChildFinder<T>(child);
+        }
+
+        private void ScrollStackListViewToEnd()
+        {
+            var scrollViewer = RecursiveVisualChildFinder<ScrollViewer>(StackListView) as ScrollViewer;
+
+            if (scrollViewer != null)
+            {
+                scrollViewer.ScrollToBottom();
+            }
+        }
+
         /// <summary>
         /// Handles the changes of the current stack.
         /// </summary>
@@ -319,6 +338,7 @@ namespace LPD.VirtualMachine.View
                 #endregion
 
                 StackListView.ItemsSource = Context.Memory.StackRegion.Take(Context.Memory.StackRegion.Top + 1);
+                ScrollStackListViewToEnd();
             }
         }
 
