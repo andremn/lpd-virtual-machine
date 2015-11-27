@@ -283,7 +283,11 @@ namespace LPD.VirtualMachine.View
         private DependencyObject RecursiveVisualChildFinder<T>(DependencyObject rootObject)
         {
             var child = VisualTreeHelper.GetChild(rootObject, 0);
-            if (child == null) return null;
+
+            if (child == null)
+            {
+                return null;
+            }
 
             return child.GetType() == typeof(T) ? child : RecursiveVisualChildFinder<T>(child);
         }
